@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Dark mode styles */
+        /* Dark mode styles */
+html.dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+html.dark .bg-white {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+html.dark .text-gray-900 {
+    color: #ffffff;
+}
+html.dark .text-gray-600 {
+    color: #d1d1d1;
+}
+html.dark .text-gray-500 {
+    color: #a0a0a0;
+}
+html.dark .bg-gray-50 {
+    background-color: #3d3d3d;
+}
+html.dark .border {
+    border-color: #404040;
+}
+html.dark .input-field {
+    background-color: #3d3d3d;
+    border-color: #606060;
+    color: #ffffff;
+}
+html.dark .category-select {
+    background-color: #3d3d3d;
+    border-color: #606060;
+    color: #ffffff;
+}
+html.dark .btn-dark-mode {
+    background-color: #3d3d3d;
+    color: #ffffff;
+}
+html.dark .theme-section, html.dark .currency-section {
+    background-color: #3d3d3d;
+    border-color: #606060;
+}
+html.dark .category-select option {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+html.dark .category-select:focus {
+    background-color: #3d3d3d;
+    border-color: #606060;
+}
+
+        html.dark {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        html.dark .bg-white {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+        html.dark .text-gray-900 {
+            color: #ffffff;
+        }
+        html.dark .text-gray-600 {
+            color: #d1d1d1;
+        }
+        html.dark .text-gray-500 {
+            color: #a0a0a0;
+        }
+        html.dark .bg-gray-50 {
+            background-color: #3d3d3d;
+        }
+        html.dark .border {
+            border-color: #404040;
+        }
+        html.dark .input-field {
+            background-color: #3d3d3d;
+            border-color: #606060;
+            color: #ffffff;
+        }
+        html.dark .category-select {
+            background-color: #3d3d3d;
+            border-color: #606060;
+            color: #ffffff;
+        }
+        html.dark .btn-dark-mode {
+            background-color: #3d3d3d;
+            color: #ffffff;
+        }
+        html.dark .theme-section, html.dark .currency-section {
+            background-color: #3d3d3d;
+            border-color: #606060;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            transition: right 0.3s ease-in-out;
+            z-index: 1001;
+        }
+        .drawer.open {
+            right: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Menu Button -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Settings Drawer -->
+    <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-800 shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Settings</h2>
+            <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Theme Toggle Section -->
+        <div class="theme-section mb-6">
+            <h3 class="font-semibold mb-2">Theme</h3>
+            <button id="themeToggle" class="w-full bg-gray-100 dark:bg-gray-700 p-3 rounded flex justify-between items-center">
+                <span id="themeText">Light Mode</span>
+                <i class="fas fa-sun" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Currency Selector Section -->
+        <div class="currency-section mb-6">
+            <h3 class="font-semibold mb-2">Currency</h3>
+            <select id="currencySelect" class="w-full p-2 border rounded">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="INR">INR (₹)</option>
+                <option value="JPY">JPY (¥)</option>
+            </select>
+        </div>
+
+        <!-- Reset Data Section -->
+        <div class="mb-6">
+            <h3 class="font-semibold mb-2">Data Management</h3>
+            <button id="resetData" class="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
+                Reset All Data
+            </button>
+        </div>
+
+        <!-- Links Section -->
+        <div class="mb-6">
+            <h3 class="font-semibold mb-2">Links</h3>
+            <a href="https://github.com/yourusername/expense-tracker" target="_blank"
+               class="block mb-2 text-blue-500 hover:text-blue-600">
+                <i class="fab fa-github mr-2"></i>GitHub Repository
+            </a>
+        </div>
+
+        <!-- About Section -->
+        <div class="mt-auto">
+            <h3 class="font-semibold mb-2">About</h3>
+            <p class="text-sm text-gray-600">
+                Personal Expense Tracker v1.0<br>
+                A simple, efficient way to track your daily expenses.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <!-- Name Input Section -->
+        <div class="mb-8 text-center relative">
+            <div id="nameInputContainer">
+                <input type="text" id="userName" placeholder="Enter your name" 
+                    class="text-2xl font-bold text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none bg-transparent mb-2 input-field">
+                <div class="text-sm text-gray-500">Press Enter when done</div>
+            </div>
+            <div id="welcomeMessage" class="text-gray-600 text-xl hidden">
+                Welcome back, <span id="nameDisplay" class="font-semibold"></span>! 
+                <button id="editName" class="text-sm text-blue-500 ml-2">(edit)</button>
+            </div>
+        </div>
+
+        <!-- Add Expense Form -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Add New Expense</h2>
+            <form id="expenseForm" class="space-y-4">
+                <div>
+                    <input type="text" id="description" placeholder="Description" required
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                </div>
+                <div>
+                    <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01"
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                </div>
+                <div>
+                    <select id="category" required
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent category-select">
+                        <option value="">Select Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                    Add Expense
+                </button>
+            </form>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Summary</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="text-gray-600">Total Expenses</div>
+                    <div id="totalExpenses" class="text-2xl font-bold text-blue-500">$0</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="text-gray-600">This Month</div>
+                    <div id="monthlyExpenses" class="text-2xl font-bold text-green-500">$0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expense List -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Recent Expenses</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-2 px-4 text-gray-600">Date</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Description</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Category</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Amount</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseList">
+                        <!-- Expenses will be added dynamically here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const storage = localStorage;
+        let expenses = JSON.parse(storage.getItem('expenses')) || [];
+        let currency = storage.getItem('currency') || 'USD';
+        let darkMode = storage.getItem('darkMode') === 'true';
+        const currencySymbols = {
+            USD: '$',
+            EUR: '€',
+            GBP: '£',
+            INR: '₹',
+            JPY: '¥'
+        };
+        let userName = storage.getItem('userName');
+
+        const userNameInput = document.getElementById('userName');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const nameDisplay = document.getElementById('nameDisplay');
+        const nameInputContainer = document.getElementById('nameInputContainer');
+        const editNameBtn = document.getElementById('editName');
+        const expenseForm = document.getElementById('expenseForm');
+        const expenseList = document.getElementById('expenseList');
+        const totalExpenses = document.getElementById('totalExpenses');
+        const monthlyExpenses = document.getElementById('monthlyExpenses');
+        const currencySelect = document.getElementById('currencySelect');
+        const resetDataBtn = document.getElementById('resetData');
+        const resetModal = document.getElementById('resetModal');
+        const cancelResetBtn = document.getElementById('cancelReset');
+        const confirmResetBtn = document.getElementById('confirmReset');
+        const menuBtn = document.getElementById('menuBtn');
+        const settingsDrawer = document.getElementById('settingsDrawer');
+        const closeDrawerBtn = document.getElementById('closeDrawer');
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        const themeIcon = document.getElementById('themeIcon');
+        const categorySelect = document.getElementById('category');
+        const customCategoryInputId = 'customCategoryInput';
+        let customCategories = [];
+
+        const updateExpenseList = () => {
+            expenseList.innerHTML = '';
+            let total = 0;
+            expenses.forEach(expense => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 text-sm text-gray-500">${expense.date}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${expense.description}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${expense.category}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${currencySymbols[currency]}${expense.amount.toFixed(2)}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        <button class="text-red-500 hover:text-red-700" onclick="deleteExpense('${expense.date}')">Delete</button>
+                    </td>
+                `;
+                expenseList.appendChild(row);
+                total += expense.amount;
+            });
+            totalExpenses.innerText = `${currencySymbols[currency]}${total.toFixed(2)}`;
+            const monthTotal = expenses.filter(exp => new Date(exp.date).getMonth() === new Date().getMonth()).reduce((sum, exp) => sum + exp.amount, 0);
+            monthlyExpenses.innerText = `${currencySymbols[currency]}${monthTotal.toFixed(2)}`;
+        };
+
+        const saveExpense = (description, amount, category) => {
+            const date = new Date().toISOString();
+            const newExpense = { date, description, amount, category };
+            expenses.push(newExpense);
+            storage.setItem('expenses', JSON.stringify(expenses));
+            updateExpenseList();
+        };
+
+        const deleteExpense = (date) => {
+            expenses = expenses.filter(expense => expense.date !== date);
+            storage.setItem('expenses', JSON.stringify(expenses));
+            updateExpenseList();
+        };
+
+        const addCustomCategoryOption = () => {
+            const customOption = document.createElement('option');
+            customOption.value = 'Create Custom Category';
+            customOption.textContent = 'Create Custom Category';
+            categorySelect.appendChild(customOption);
+        };
+
+        const handleCustomCategory = () => {
+            if (categorySelect.value === 'Create Custom Category') {
+                const customInput = document.createElement('input');
+                customInput.type = 'text';
+                customInput.id = customCategoryInputId;
+                customInput.placeholder = 'Enter custom category';
+                customInput.className = 'w-full p-2 border rounded my-2 input-field';
+                customInput.addEventListener('blur', () => {
+                    const newCategory = customInput.value.trim();
+                    if (newCategory) {
+                        customCategories.push(newCategory);
+                        const newOption = document.createElement('option');
+                        newOption.value = newCategory;
+                        newOption.textContent = newCategory;
+                        categorySelect.insertBefore(newOption, categorySelect.lastChild);
+                        categorySelect.value = newCategory;
+                    }
+                    customInput.remove();
+                });
+                categorySelect.parentElement.appendChild(customInput);
+                customInput.focus();
+            }
+        };
+
+        // Initialize
+        addCustomCategoryOption();
+        updateExpenseList();
+
+        // Event listeners
+        menuBtn.addEventListener('click', () => {
+            settingsDrawer.classList.toggle('open');
+        });
+
+        closeDrawerBtn.addEventListener('click', () => {
+            settingsDrawer.classList.remove('open');
+        });
+
+        themeToggleBtn.addEventListener('click', () => {
+            darkMode = !darkMode;
+            storage.setItem('darkMode', darkMode);
+            document.documentElement.classList.toggle('dark', darkMode);
+            themeText.innerText = darkMode ? 'Dark Mode' : 'Light Mode';
+            themeIcon.classList.toggle('fa-sun', !darkMode);
+            themeIcon.classList.toggle('fa-moon', darkMode);
+        });
+
+        categorySelect.addEventListener('change', handleCustomCategory);
+
+        expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const description = document.getElementById('description').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const category = categorySelect.value;
+            if (description && amount > 0 && category) {
+                saveExpense(description, amount, category);
+                expenseForm.reset();
+            }
+        });
+
+        resetDataBtn.addEventListener('click', () => {
+            resetModal.style.display = 'block';
+        });
+
+        cancelResetBtn.addEventListener('click', () => {
+            resetModal.style.display = 'none';
+        });
+
+        confirmResetBtn.addEventListener('click', () => {
+            storage.removeItem('expenses');
+            expenses = [];
+            updateExpenseList();
+            resetModal.style.display = 'none';
+        });
+
+        if (userName) {
+            welcomeMessage.classList.remove('hidden');
+            nameDisplay.innerText = userName;
+        } else {
+            nameInputContainer.style.display = 'block';
+            userNameInput.addEventListener('blur', () => {
+                const enteredName = userNameInput.value.trim();
+                if (enteredName) {
+                    userName = enteredName;
+                    storage.setItem('userName', userName);
+                    welcomeMessage.classList.remove('hidden');
+                    nameDisplay.innerText = userName;
+                    nameInputContainer.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
