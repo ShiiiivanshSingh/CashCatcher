@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html.dark {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        html.dark .bg-white {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+        html.dark .text-gray-900 {
+            color: #ffffff;
+        }
+        html.dark .text-gray-600 {
+            color: #d1d1d1;
+        }
+        html.dark .text-gray-500 {
+            color: #a0a0a0;
+        }
+        html.dark .bg-gray-50 {
+            background-color: #3d3d3d;
+        }
+        html.dark .border {
+            border-color: #404040;
+        }
+        html.dark .input-field, html.dark .category-select {
+            background-color: #3d3d3d;
+            border-color: #606060;
+            color: #ffffff;
+        }
+        html.dark .category-select option {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+        html.dark .btn-dark-mode {
+            background-color: #3d3d3d;
+            color: #ffffff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            transition: right 0.3s ease-in-out;
+            z-index: 1001;
+        }
+        .drawer.open {
+            right: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="fixed top-4 right-4 z-50">
+        <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-800 shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Settings</h2>
+            <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="theme-section mb-6">
+            <h3 class="font-semibold mb-2">Theme</h3>
+            <button id="themeToggle" class="w-full bg-gray-600 text-white dark:bg-black p-3 rounded flex justify-between items-center">
+                <span id="themeText">Light Mode</span>
+                <i class="fas fa-sun" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <div class="currency-section mb-6">
+            <h3 class="font-semibold mb-2">Currency</h3>
+            <select id="currencySelect" class="w-full p-2 bg-blue-500 text-white border rounded">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="INR">INR (₹)</option>
+                <option value="JPY">JPY (¥)</option>
+            </select>
+        </div>
+        
+        <div class="mb-6">
+            <h3 class="font-semibold mb-2">Data Management</h3>
+            <button id="resetData" class="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
+                Reset All Data
+            </button>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="font-semibold mb-2">Links</h3>
+            <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
+               class="block mb-2 text-blue-500 hover:text-blue-600">
+                <i class="fab fa-github mr-2"></i>GitHub Repository
+            </a>
+        </div>
+
+        <div class="mt-auto">
+            <h3 class="font-semibold mb-2">About</h3>
+            <p class="text-sm text-gray-600">
+                Personal Expense Tracker v1.0<br>
+                A simple, efficient way to track your daily expenses.
+            </p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <div class="mb-8 text-center relative">
+            <div id="nameInputContainer">
+                <input type="text" id="userName" placeholder="Enter your name" 
+                    class="text-2xl font-bold text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none bg-transparent mb-2 input-field">
+                <div class="text-sm text-gray-500">Press Enter when done</div>
+            </div>
+            <div id="welcomeMessage" class="text-gray-600 text-xl hidden">
+                Welcome back, <span id="nameDisplay" class="font-semibold"></span>! 
+                <button id="editName" class="text-sm text-blue-500 ml-2">(edit)</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Add New Expense</h2>
+            <form id="expenseForm" class="space-y-4">
+                <div>
+                    <input type="text" id="description" placeholder="Description" required
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                </div>
+                <div>
+                    <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01"
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                </div>
+                <div>
+                    <select id="category" required
+                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent category-select">
+                        <option value="">Select Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                    Add Expense
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Summary</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="text-gray-600">Total Expenses</div>
+                    <div id="totalExpenses" class="text-2xl font-bold text-blue-500">$0</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="text-gray-600">This Month</div>
+                    <div id="monthlyExpenses" class="text-2xl font-bold text-green-500">$0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Recent Expenses</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-2 px-4 text-gray-600">Date</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Description</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Category</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Amount</th>
+                            <th class="text-left py-2 px-4 text-gray-600">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseList">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const storage = localStorage;
+        let expenses = JSON.parse(storage.getItem('expenses')) || [];
+        let currency = storage.getItem('currency') || 'INR'; // INR default currency
+        
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        const themeIcon = document.getElementById('themeIcon');
+        const menuBtn = document.getElementById('menuBtn');
+        const settingsDrawer = document.getElementById('settingsDrawer');
+        const closeDrawer = document.getElementById('closeDrawer');
+        const currencySelect = document.getElementById('currencySelect');
+        const totalExpenses = document.getElementById('totalExpenses');
+        const monthlyExpenses = document.getElementById('monthlyExpenses');
+        const expenseForm = document.getElementById('expenseForm');
+        const expenseList = document.getElementById('expenseList');
+        const userNameInput = document.getElementById('userName');
+        const nameDisplay = document.getElementById('nameDisplay');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const nameInputContainer = document.getElementById('nameInputContainer');
+        const editName = document.getElementById('editName');
+        const resetData = document.getElementById('resetData');
+        const descriptionInput = document.getElementById('description');
+        const amountInput = document.getElementById('amount');
+        const categorySelect = document.getElementById('category');
+
+        // Set INR as the default value in the dropdown
+        currencySelect.value = 'INR';
+
+        // Toggle Theme
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                themeText.textContent = 'Dark Mode';
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                themeText.textContent = 'Light Mode';
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // Open Settings Drawer
+        menuBtn.addEventListener('click', () => {
+            settingsDrawer.classList.add('open');
+        });
+
+        // Close Settings Drawer
+        closeDrawer.addEventListener('click', () => {
+            settingsDrawer.classList.remove('open');
+        });
+
+        // Currency Change
+        currencySelect.addEventListener('change', () => {
+            currency = currencySelect.value;
+            storage.setItem('currency', currency);
+            updateExpenseSummary();
+        });
+
+        // Form submission for adding expenses
+        expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const expense = {
+                date: new Date().toLocaleDateString(),
+                description: descriptionInput.value,
+                amount: parseFloat(amountInput.value),
+                category: categorySelect.value
+            };
+            expenses.push(expense);
+            storage.setItem('expenses', JSON.stringify(expenses));
+            descriptionInput.value = '';
+            amountInput.value = '';
+            categorySelect.value = '';
+            updateExpenseSummary();
+            renderExpenses();
+        });
+
+        // Reset Data
+        resetData.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all data?')) {
+                expenses = [];
+                storage.setItem('expenses', JSON.stringify(expenses));
+                updateExpenseSummary();
+                renderExpenses();
+            }
+        });
+
+        // Render Expenses
+        function renderExpenses() {
+            expenseList.innerHTML = '';
+            expenses.forEach((expense) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="py-2 px-4">${expense.date}</td>
+                    <td class="py-2 px-4">${expense.description}</td>
+                    <td class="py-2 px-4">${expense.category}</td>
+                    <td class="py-2 px-4">${formatCurrency(expense.amount)}</td>
+                    <td class="py-2 px-4">
+                        <button class="text-red-500" onclick="deleteExpense('${expense.date}')">Delete</button>
+                    </td>
+                `;
+                expenseList.appendChild(row);
+            });
+        }
+
+        // Delete Expense
+        function deleteExpense(date) {
+            expenses = expenses.filter(expense => expense.date !== date);
+            storage.setItem('expenses', JSON.stringify(expenses));
+            updateExpenseSummary();
+            renderExpenses();
+        }
+
+        // Update Expense Summary
+        function updateExpenseSummary() {
+            const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            totalExpenses.textContent = formatCurrency(total);
+            const monthlyTotal = expenses.filter(expense => new Date(expense.date).getMonth() === new Date().getMonth())
+                                         .reduce((sum, expense) => sum + expense.amount, 0);
+            monthlyExpenses.textContent = formatCurrency(monthlyTotal);
+        }
+
+        // Format Currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency
+            }).format(amount);
+        }
+
+        // Initialize user settings
+        const storedName = storage.getItem('userName');
+        if (storedName) {
+            welcomeMessage.classList.remove('hidden');
+            nameDisplay.textContent = storedName;
+            nameInputContainer.classList.add('hidden');
+        }
+
+        // Set User Name
+        userNameInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter' && userNameInput.value.trim()) {
+                const userName = userNameInput.value.trim();
+                storage.setItem('userName', userName);
+                welcomeMessage.classList.remove('hidden');
+                nameDisplay.textContent = userName;
+                nameInputContainer.classList.add('hidden');
+            }
+        });
+
+        // Edit Name
+        editName.addEventListener('click', () => {
+            nameInputContainer.classList.remove('hidden');
+            welcomeMessage.classList.add('hidden');
+            userNameInput.value = nameDisplay.textContent;
+        });
+
+        // Load initial state
+        renderExpenses();
+        updateExpenseSummary();
+    });
+    </script>
+</body>
+</html>
