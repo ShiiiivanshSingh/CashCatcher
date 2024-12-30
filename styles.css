@@ -1,0 +1,60 @@
+
+        html.dark {
+            background-color: #242424;
+            color: #ffffff;
+        }
+        html.dark .bg-white {
+            background-color: #202023;
+            color: #ffffff;
+        }
+        html.dark .text-gray-900 {
+            color: #ffffff;
+        }
+        html.dark .text-gray-600 {
+            color: #d1d1d1;
+        }
+        html.dark .text-gray-500 {
+            color: #515151;
+        }
+        html.dark .bg-gray-50 {
+            background-color: #1A1A1D;
+        }
+        html.dark .border {
+            border-color: #404040;
+        }
+        html.dark .input-field, html.dark .category-select {
+            background-color: #1A1A1D;
+            border-color: #333333;
+            color: #ffffff;
+        }
+        html.dark .category-select option {
+            background-color: #333333;
+            color: #ffffff;
+        }
+        html.dark .btn-dark-mode {
+            background-color: #333333;
+            color: #ffffff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            transition: right 0.3s ease-in-out;
+            z-index: 1001;
+        }
+        .drawer.open {
+            right: 0;
+        }
+  
