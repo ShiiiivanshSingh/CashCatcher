@@ -19,6 +19,15 @@ const nameInputContainer = document.getElementById('nameInputContainer');
 const welcomeMessage = document.getElementById('welcomeMessage');
 const editNameButton = document.getElementById('editName');
 
+// Exchange rates (INR is the base currency)
+const exchangeRates = {
+    INR: 1,
+    USD: 0.012,
+    EUR: 0.011,
+    GBP: 0.0095,
+    JPY: 1.65
+};
+
 // Set the currency dropdown to the stored value or default to INR
 currencySelect.value = currency;
 
@@ -80,7 +89,8 @@ expenseForm.addEventListener('submit', (e) => {
 
     if (!description || !amount || !category) return;
 
-    expenses.push({ description, amount, category, date, uniqueID });
+    // Store the expense amount in INR, regardless of the selected currency
+    expenses.push({ description, amount: amount / (exchangeRates[currency] || 1), category, date, uniqueID, currency: 'INR' });
     localStorage.setItem('expenses', JSON.stringify(expenses));
 
     updateExpenseList();
@@ -94,18 +104,31 @@ function deleteExpense(id) {
     updateExpenseList();
 }
 
-// Update the expense list
+// Convert amount from INR to selected currency
+function convertCurrency(amount, targetCurrency) {
+    if (targetCurrency === 'INR') {
+        return amount; // No conversion needed if INR is selected
+    }
+    return amount * exchangeRates[targetCurrency]; // Convert using the exchange rate
+}
+
+// Update the expense list and convert amounts based on the selected currency
 function updateExpenseList() {
     expenseList.innerHTML = '';
     let total = 0;
+
+    // Sort expenses by uniqueID 
+    expenses.sort((a, b) => b.uniqueID - a.uniqueID);
+
     expenses.forEach(expense => {
+        const convertedAmount = convertCurrency(expense.amount, currency); // Convert amount based on selected currency
         const row = document.createElement('tr');
-        row.className = 'border-b';
+        row.className = 'border-b border-opacity-10';
         row.innerHTML = `
             <td class="py-2 px-4">${expense.date}</td>
             <td class="py-2 px-4">${expense.description}</td>
             <td class="py-2 px-4">${expense.category}</td>
-            <td class="py-2 px-4">${currency} ${expense.amount.toFixed(2)}</td>
+            <td class="py-2 px-4">${currency} ${convertedAmount.toFixed(2)}</td>
             <td class="py-2 px-4">
                 <button onclick="deleteExpense(${expense.uniqueID})" class="text-red-500 hover:text-red-700">
                     <i class="fas fa-trash"></i>
@@ -113,7 +136,7 @@ function updateExpenseList() {
             </td>
         `;
         expenseList.appendChild(row);
-        total += expense.amount;
+        total += convertedAmount;
     });
     totalExpenses.innerText = `${currency} ${total.toFixed(2)}`;
 }

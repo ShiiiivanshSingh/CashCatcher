@@ -20,11 +20,11 @@
             background-color: #1A1A1D;
         }
         html.dark .border {
-            border-color: #404040;
+            border-color: #33333340;
         }
         html.dark .input-field, html.dark .category-select {
             background-color: #1A1A1D;
-            border-color: #333333;
+            border-color: #33333340;
             color: #ffffff;
         }
         html.dark .category-select option {
