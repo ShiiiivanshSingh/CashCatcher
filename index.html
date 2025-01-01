@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css"> 
     <link rel="icon" type="favicon." href="assets/img/coin.png">
-</head>
+    
 <body class="bg-gray-50 min-h-screen">
     <div class="fixed top-4 right-4 z-50">
         <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
@@ -16,7 +16,7 @@
         </button>
     </div>
 
-    <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-800 shadow-lg p-6">
+    <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-900 shadow-lg p-6">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold">Settings</h2>
             <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
@@ -56,15 +56,23 @@
                class="block mb-2 text-blue-500 hover:text-blue-600">
                 <i class="fab fa-github mr-2"></i>GitHub Repository
             </a>
+            
+            <a href="plot.html" target="_blank"
+               class="block mb-2 text-blue-500 hover:text-blue-600">
+                <i class="fa-solid fa-plane mr-2"></i>Insights
+            </a>
         </div>
 
-        <div class="mt-auto">
-            <h3 class="font-semibold mb-2">About</h3>
-            <p class="text-sm text-gray-600">
-                Personal Expense Tracker v1.0<br>
+        <div class="mt-auto text-center bg-gray-50 bg-opacity-30 p-6 rounded-lg shadow-md">
+            <h3 class="font-semibold mb-4 text-white text-2xl">About</h3>
+            <p class="text-sm text-gray-300 mb-4">
+                Personal Expense Tracker <br>
                 A simple, efficient way to track your daily expenses.<br>
-                Made by Shivansh Pratap Singh. <br>Special thanks to akshat omar. yar bhot thnad hai :(
+                Made by Shivansh Pratap Singh.<br>
             </p>
+            <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-blue-500 hover:text-blue-600 font-semibold">
+                Visit GitHub Profile
+            </a>
         </div>
     </div>
 
@@ -151,6 +159,22 @@
                 </table>
             </div>
         </div>
+        <div class="bg-white rounded-lg shadow-md p-4 mt-4 text-center">
+            <h2 class="text-xl font-semibold mb-4">Insights</h2>
+            <p class="text-gray-600 mb-4">
+                Want to take a deeper look into your spending habits?<br> 
+                Click on the button below to view detailed insights into your expenses. <br>
+            </p>
+            <div>
+                <a href="plot.html" target="_blank" class="block mb-2">
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                        <i class="fa-brands fa-dribbble mr-2"></i>Insights!
+                    </button>
+                </a>
+            </div>
+        </div>
+        
+        
     </div>
 
     <script src="script.js"></script>
