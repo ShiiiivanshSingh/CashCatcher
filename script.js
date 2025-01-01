@@ -19,6 +19,69 @@ const nameInputContainer = document.getElementById('nameInputContainer');
 const welcomeMessage = document.getElementById('welcomeMessage');
 const editNameButton = document.getElementById('editName');
 
+const editCategoryButton = document.getElementById('editCategory');
+const categorySelect = document.getElementById('category');
+const deleteCategoryButton = document.getElementById('deleteCategory');
+const categoryNotification = document.getElementById('categoryNotification');
+
+// Handle custom category input when the pencil icon is clicked
+editCategoryButton.addEventListener('click', () => {
+    const customCategory = prompt("Enter a custom category:");
+
+    if (customCategory) {
+        // Check if the category already exists
+        const existingCategories = Array.from(categorySelect.options).map(option => option.value);
+
+        if (!existingCategories.includes(customCategory)) {
+            // Add the custom category to the dropdown
+            const newOption = document.createElement('option');
+            newOption.value = customCategory;
+            newOption.textContent = customCategory;
+            categorySelect.appendChild(newOption);
+
+            // Show success notification
+            categoryNotification.classList.remove('hidden');
+            setTimeout(() => {
+                categoryNotification.classList.add('hidden');
+            }, 3000);  // Hide notification after 3 seconds
+        } else {
+            alert("This category already exists.");
+        }
+    }
+});
+
+// Handle deleting a custom category when the trash icon is clicked
+deleteCategoryButton.addEventListener('click', () => {
+    const selectedCategory = categorySelect.value;
+
+    if (selectedCategory && selectedCategory !== "") {
+        // Check if it's a custom category (not predefined)
+        const predefinedCategories = ["Food", "BlinkIt", "Entertainment", "Shopping", "Bills", "Other"];
+        
+        if (!predefinedCategories.includes(selectedCategory)) {
+            const optionToRemove = categorySelect.querySelector(`option[value="${selectedCategory}"]`);
+            categorySelect.removeChild(optionToRemove);
+        } else {
+            alert("You cannot delete predefined categories.");
+        }
+    } else {
+        alert("Please select a category to delete.");
+    }
+});
+
+// Show delete button when a custom category is selected
+categorySelect.addEventListener('change', () => {
+    const selectedCategory = categorySelect.value;
+    const predefinedCategories = ["Food", "BlinkIt", "Entertainment", "Shopping", "Bills", "Other"];
+
+    // Show the delete button if a custom category is selected
+    if (selectedCategory && !predefinedCategories.includes(selectedCategory)) {
+        deleteCategoryButton.classList.remove('hidden');
+    } else {
+        deleteCategoryButton.classList.add('hidden');
+    }
+});
+
 // Exchange rates (INR is the base currency)
 const exchangeRates = {
     INR: 1,
