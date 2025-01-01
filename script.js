@@ -180,8 +180,8 @@ function updateExpenseList() {
     expenseList.innerHTML = '';
     let total = 0;
 
-    // Sort expenses by uniqueID 
-    expenses.sort((a, b) => b.uniqueID - a.uniqueID);
+     // Sort expenses by date in descending order
+    expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     expenses.forEach(expense => {
         const convertedAmount = convertCurrency(expense.amount, currency); // Convert amount based on selected currency
