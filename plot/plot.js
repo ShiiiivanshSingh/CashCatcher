@@ -52,10 +52,23 @@ window.onload = function () {
                 label: 'Spending Distribution',
                 data: categoryValues,
                 backgroundColor: ['#ff9800', '#f44336', '#4caf50', '#2196f3', '#9c27b0'],
+                borderColor: 'transparent',
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                },
+                tooltip: {
+                    titleColor: 'white',
+                    bodyColor: 'white'
+                }
+            }
         }
     });
 
@@ -69,10 +82,23 @@ window.onload = function () {
                 label: 'Expenditure by Day',
                 data: dayValues,
                 backgroundColor: ['#9c27b0', '#2196f3', '#4caf50', '#b9df94', '#4caf50', '#e91e63', '#8bc34a'],
+                borderColor: 'transparent',
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                },
+                tooltip: {
+                    titleColor: 'white',
+                    bodyColor: 'white'
+                }
+            }
         }
     });
 
@@ -86,7 +112,7 @@ window.onload = function () {
                 data: monthlyData[category],
                 backgroundColor: '#4caf50',
                 borderColor: '#388e3c',
-                borderWidth: 0,
+                borderWidth: 0
             }))
         },
         options: {
@@ -94,6 +120,13 @@ window.onload = function () {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
                 }
             }
         }
@@ -119,7 +152,7 @@ window.onload = function () {
                 borderColor: '#2196f3',
                 backgroundColor: '#64b5f6',
                 fill: true,
-                tension: 0.4,
+                tension: 0.4
             }]
         },
         options: {
@@ -127,6 +160,13 @@ window.onload = function () {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
                 }
             }
         }
@@ -144,8 +184,8 @@ window.onload = function () {
                 label: 'Spending by Day of Week',
                 data: heatmapData,
                 backgroundColor: '#ff5722',
-                borderColor: '#d32f2f',
-                borderWidth: 0,
+                borderColor: 'transparent',
+                borderWidth: 0
             }]
         },
         options: {
@@ -153,6 +193,13 @@ window.onload = function () {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
                 }
             }
         }
