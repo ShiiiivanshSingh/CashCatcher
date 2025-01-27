@@ -2,7 +2,13 @@
 
 <p align="center"><img src="https://socialify.git.ci/ShiiiivanshSingh/CashCatcher/image?custom_description=A+simple+web+app+for+tracking+personal+expenses+and+visualizing+your+spending.&amp;description=1&amp;font=Inter&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Solid&amp;stargazers=1&amp;theme=Dark" alt="project-image"></p>
 
+  <h2>🚀 Demo</h2>
 
+<div align="center">
+  
+[![LegalChamps](https://img.shields.io/badge/Visit-CashCatcher-blue?style=for-the-badge)](https://shiiiivanshsingh.github.io/CashCatcher/index.html)
+
+</div>
 
 
 <h2>✨ Features</h2>
@@ -15,9 +21,6 @@ Here're some of the project's best features:
 *   Customize the theme (Light/Dark) and select your preferred currency.
 *   Reset data and manage expense categories.
 
-  <h2>🚀 Demo</h2>
-
-[CashCatcher 💵💰](https://t.co/P5mO7VVJPK)
 
 <h2>Project Screenshots:</h2>
 
