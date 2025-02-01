@@ -8,175 +8,260 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css"> 
     <link rel="icon" type="favicon." href="assets/img/coin.png">
-    
-<body class="bg-gray-50 min-h-screen">
-    <div class="fixed top-4 right-4 z-50">
-        <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
-            <i class="fa-solid fa-house"></i>
-        </button>
-    </div>
-
-    <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-900 shadow-lg p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Settings</h2>
-            <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="theme-section mb-6">
-            <h3 class="font-semibold mb-2">Theme</h3>
-            <button id="themeToggle" class="w-full bg-gray-600 text-white dark:bg-black p-3 rounded flex justify-between items-center">
-                <span id="themeText">Light Mode</span>
-                <i class="fas fa-sun" id="themeIcon"></i>
-            </button>
-        </div>
-
-        <div class="currency-section mb-6">
-            <h3 class="font-semibold mb-2">Currency</h3>
-            <select id="currencySelect" class="w-full p-2 bg-blue-500 text-white border rounded">
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="GBP">GBP (£)</option>
-                <option value="INR">INR (₹)</option>
-                <option value="JPY">JPY (¥)</option>
-            </select>
-        </div>
-        
-        <div class="mb-6">
-            <h3 class="font-semibold mb-2">Data Management</h3>
-            <button id="resetData" class="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
-                Reset All Data
-            </button>
-        </div>
-
-        <div class="mb-6">
-            <h3 class="font-semibold mb-2">Links</h3>
-            <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
-               class="block mb-2 text-blue-500 hover:text-blue-600">
-                <i class="fab fa-github mr-2"></i>GitHub Repository
-            </a>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Landing Page -->
+    <div id="landingPage" class="hidden w-full max-w-lg px-4 animate-fadeIn">
+        <div class="text-center space-y-6">
+            <div class="mb-8">
+                <i class="fas fa-coins text-5xl text-blue-500 mb-4"></i>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 text-hite dark:text-white">CashCatcher</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Simple expense tracking for everyone
+                </p>
+            </div>
             
-            <a href="plot.html" target="_blank"
-               class="block mb-2 text-blue-500 hover:text-blue-600">
-                <i class="fa-solid fa-plane mr-2"></i>Insights
-            </a>
-        </div>
+            <div class="space-y-3">
+                <button id="startTracking" 
+                    class="w-full sm:w-auto px-8 py-3 bg-blue-500 text-white rounded-lg 
+                           hover:bg-blue-600 transition-all duration-300 
+                           shadow-md hover:shadow-lg">
+                    <span class="flex items-center justify-center">
+                        <span>Start Tracking</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </span>
+                </button>
+                <p class="text-sm text-blue-500 dark:text-white">No sign-up required</p>
+            </div>
 
-        <div class="mt-auto text-center bg-gray-600 bg-opacity-90 p-6 rounded-lg shadow-md">
-            <h3 class="font-semibold mb-4 text-white text-2xl">About</h3>
-            <p class="text-sm text-gray-300 mb-4">
-                Personal Expense Tracker <br>
-                A simple, efficient way to track your daily expenses.<br>
-                Made by Shivansh Pratap Singh.<br>
-            </p>
-            <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-blue-500 hover:text-blue-600 font-semibold">
-                Visit GitHub Profile
-            </a>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                    <i class="fas fa-bolt text-blue-500 text-xl mb-2"></i>
+                    <h3 class="font-medium dark:text-white">Quick & Easy</h3>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                    <i class="fas fa-chart-line text-blue-500 text-xl mb-2"></i>
+                    <h3 class="font-medium dark:text-white">Track Spending</h3>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                    <i class="fas fa-lock text-blue-500 text-xl mb-2"></i>
+                    <h3 class="font-medium dark:text-white">Privacy First</h3>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container mx-auto px-4 py-8 max-w-2xl">
-        <div class="mb-8 text-center relative">
-            <div id="nameInputContainer">
+    <!-- Name Input Container -->
+    <div id="nameInputContainer" class="hidden w-full max-w-md px-4 mt-12">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4 text-white dark:text-white text-center">Let's Get Started</h2>
+            <div class="flex items-center space-x-2">
                 <input type="text" id="userName" placeholder="Enter your name" 
-                    class="text-2xl font-bold text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none bg-transparent mb-2 input-field">
-                    <button id="submitName" class="ml-2 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
-                        <i class="fa-regular fa-circle-check"></i>
-                    </button>
-            </div>
-            <div id="welcomeMessage" class="text-gray-600 text-xl hidden">
-                Welcome back, <span id="nameDisplay" class="font-semibold"></span>! 
-                <button id="editName" class="text-sm text-blue-500 ml-2">(edit)</button>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4">Add New Expense</h2>
-            <form id="expenseForm" class="space-y-4">
-                <div>
-                    <input type="text" id="description" placeholder="Description" required
-                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
-                </div>
-                <div>
-                    <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01"
-                        class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
-                </div>
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <select id="category" required
-                            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent category-select">
-                            <option value="">Select Category</option>
-                            <option value="Food">Food</option>
-                            <option value="BlinkIt">BlinkIt</option>
-                            <option value="Entertainment">Entertainment</option>
-                            <option value="Shopping">Shopping</option>
-                            <option value="Bills">Bills</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <button id="editCategory" class="text-blue-500 hover:text-blue-700">
-                            <i class="fas fa-pencil-alt"></i>  <!-- Pencil Icon -->
-                        </button>
-                        <button id="deleteCategory" class="text-red-500 hover:text-red-700 hidden">
-                            <i class="fas fa-trash"></i>  <!-- Trash Icon -->
-                        </button>
-                    </div>
-                    <div id="categoryNotification" class="hidden text-green-500 mt-2">Category created successfully!</div>
-                </div>
-                
-                <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                    Add Expense
+                    class="flex-1 p-2 text-lg text-center border-b-2 border-gray-300 dark:border-gray-600
+                           focus:border-blue-500 outline-none bg-transparent
+                           dark:text-white">
+                <button id="submitName" 
+                    class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 
+                           transition-colors duration-300">
+                    <i class="fa-regular fa-circle-check text-lg"></i>
                 </button>
-            </form>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4">Summary</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="bg-gray-50 p-4 rounded text-center">
-                    <div class="text-gray-600 text-centre">Total Expenses</div>
-                    <div id="totalExpenses" class="text-2xl font-bold text-blue-500 text-centre">$0</div>
-                </div>
             </div>
         </div>
+    </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-4 ">Recent Expenses</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full table-auto">
-                    <thead>
-                        <tr class="border-b border-opacity-50">
-                            <th class="text-left py-2 px-4 text-gray-600">Date</th>
-                            <th class="text-left py-2 px-4 text-gray-600">Description</th>
-                            <th class="text-left py-2 px-4 text-gray-600">Category</th>
-                            <th class="text-left py-2 px-4 text-gray-600">Amount</th>
-                            <th class="text-left py-2 px-4 text-gray-600">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expenseList">
-                    </tbody>
-                </table>
-            </div>
+    <!-- Expense Section -->
+    <div id="expenseSection" class="hidden container mx-auto px-4 py-8 max-w-2xl">
+        <div class="fixed top-4 right-4 z-50">
+            <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
+                <i class="fa-solid fa-house"></i>
+            </button>
         </div>
-        <div class="bg-white rounded-lg shadow-md p-4 mt-4 text-center">
-            <h2 class="text-xl font-semibold mb-4">Insights</h2>
-            <p class="text-gray-600 mb-4">
-                Want to take a deeper look into your spending habits?<br> 
-                Click on the button below to view detailed insights into your expenses. <br>
-            </p>
-            <div>
-                <a href="plot.html" target="_blank" class="block mb-2">
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                        <i class="fa-brands fa-dribbble mr-2"></i>Insights!
-                    </button>
+
+        <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-900 shadow-lg p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">Settings</h2>
+                <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="theme-section mb-6">
+                <h3 class="font-semibold mb-2">Theme</h3>
+                <button id="themeToggle" class="w-full bg-gray-600 text-white dark:bg-black p-3 rounded flex justify-between items-center">
+                    <span id="themeText">Light Mode</span>
+                    <i class="fas fa-sun" id="themeIcon"></i>
+                </button>
+            </div>
+
+            <div class="currency-section mb-6">
+                <h3 class="font-semibold mb-2">Currency</h3>
+                <select id="currencySelect" class="w-full p-2 bg-blue-500 text-white border rounded">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="JPY">JPY (¥)</option>
+                </select>
+            </div>
+            
+            <div class="mb-6">
+                <h3 class="font-semibold mb-2">Data Management</h3>
+                <button id="resetData" class="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
+                    Reset All Data
+                </button>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="font-semibold mb-2">Links</h3>
+                <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
+                   class="block mb-2 text-blue-500 hover:text-blue-600">
+                    <i class="fab fa-github mr-2"></i>GitHub Repository
+                </a>
+                
+                <a href="plot.html" target="_blank"
+                   class="block mb-2 text-blue-500 hover:text-blue-600">
+                    <i class="fa-solid fa-plane mr-2"></i>Insights
+                </a>
+            </div>
+
+            <div class="mt-auto text-center bg-gray-600 bg-opacity-90 p-6 rounded-lg shadow-md">
+                <h3 class="font-semibold mb-4 text-white text-2xl">About</h3>
+                <p class="text-sm text-gray-300 mb-4">
+                    Personal Expense Tracker <br>
+                    A simple, efficient way to track your daily expenses.<br>
+                    Made by Shivansh Pratap Singh.<br>
+                </p>
+                <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-blue-500 hover:text-blue-600 font-semibold">
+                    Visit GitHub Profile
                 </a>
             </div>
         </div>
-        
-        
+
+        <div class="container mx-auto px-4 py-8 max-w-2xl">
+            <div class="mb-8 text-center relative">
+                <div id="welcomeMessage" class="text-gray-600 text-xl hidden">
+                    Welcome back, <span id="nameDisplay" class="font-semibold"></span>! 
+                    <button id="editName" class="text-sm text-blue-500 ml-2">(edit)</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4">Add New Expense</h2>
+                <form id="expenseForm" class="space-y-4">
+                    <div>
+                        <input type="text" id="description" placeholder="Description" required
+                            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                    </div>
+                    <div>
+                        <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01"
+                            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <select id="category" required
+                                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent category-select">
+                                <option value="">Select Category</option>
+                                <option value="Food">Food</option>
+                                <option value="BlinkIt">BlinkIt</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <button id="editCategory" class="text-blue-500 hover:text-blue-700">
+                                <i class="fas fa-pencil-alt"></i>  <!-- Pencil Icon -->
+                            </button>
+                            <button id="deleteCategory" class="text-red-500 hover:text-red-700 hidden">
+                                <i class="fas fa-trash"></i>  <!-- Trash Icon -->
+                            </button>
+                        </div>
+                        <div id="categoryNotification" class="hidden text-green-500 mt-2">Category created successfully!</div>
+                    </div>
+                    
+                    <button type="submit"
+                        class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                        Add Expense
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4">Summary</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-gray-50 p-4 rounded text-center">
+                        <div class="text-gray-600 text-centre">Total Expenses</div>
+                        <div id="totalExpenses" class="text-2xl font-bold text-blue-500 text-centre">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4 ">Recent Expenses</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto">
+                        <thead>
+                            <tr class="border-b border-opacity-50">
+                                <th class="text-left py-2 px-4 text-gray-600">Date</th>
+                                <th class="text-left py-2 px-4 text-gray-600">Description</th>
+                                <th class="text-left py-2 px-4 text-gray-600">Category</th>
+                                <th class="text-left py-2 px-4 text-gray-600">Amount</th>
+                                <th class="text-left py-2 px-4 text-gray-600">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 mt-4 text-center">
+                <h2 class="text-xl font-semibold mb-4">Insights</h2>
+                <p class="text-gray-600 mb-4">
+                    Want to take a deeper look into your spending habits?<br> 
+                    Click on the button below to view detailed insights into your expenses. <br>
+                </p>
+                <div>
+                    <a href="plot.html" target="_blank" class="block mb-2">
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                            <i class="fa-brands fa-dribbble mr-2"></i>Insights!
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedName = localStorage.getItem('userName');
+            if (storedName) {
+                document.getElementById('expenseSection').classList.remove('hidden');
+            } else {
+                document.getElementById('landingPage').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('startTracking').addEventListener('click', function() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('nameInputContainer').classList.remove('hidden');
+        });
+
+        document.getElementById('submitName').addEventListener('click', function() {
+            const name = document.getElementById('userName').value.trim();
+            if (name) {
+                localStorage.setItem('userName', name);
+                document.getElementById('nameInputContainer').classList.add('hidden');
+                document.getElementById('expenseSection').classList.remove('hidden');
+                document.getElementById('nameDisplay').innerText = name;
+                document.getElementById('welcomeMessage').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('userName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('submitName').click();
+            }
+        });
+    </script>
 </body>
 </html>

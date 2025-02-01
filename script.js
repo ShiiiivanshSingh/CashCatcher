@@ -24,6 +24,17 @@ const categorySelect = document.getElementById('category');
 const deleteCategoryButton = document.getElementById('deleteCategory');
 const categoryNotification = document.getElementById('categoryNotification');
 
+// Check if a name is already stored
+const storedName = localStorage.getItem('userName');
+if (storedName) {
+    welcomeMessage.classList.remove('hidden');
+    nameDisplay.innerText = storedName;
+    nameInputContainer.classList.add('hidden');
+    document.getElementById('expenseSection').classList.remove('hidden'); // Show expense section for returning users
+} else {
+    document.getElementById('nameInputContainer').classList.remove('hidden'); // Show name input for new users
+}
+
 // Handle custom category input when the pencil icon is clicked
 editCategoryButton.addEventListener('click', () => {
     const customCategory = prompt("Enter a custom category:");
@@ -212,6 +223,7 @@ submitNameButton.addEventListener('click', () => {
         welcomeMessage.classList.remove('hidden');
         nameDisplay.innerText = name;
         nameInputContainer.classList.add('hidden');
+        document.getElementById('expenseSection').classList.remove('hidden'); // Show expense section after entering name
     }
 });
 
@@ -223,11 +235,5 @@ editNameButton.addEventListener('click', () => {
 
 // Load saved data
 window.onload = () => {
-    const storedName = localStorage.getItem('userName');
-    if (storedName) {
-        welcomeMessage.classList.remove('hidden');
-        nameDisplay.innerText = storedName;
-        nameInputContainer.classList.add('hidden');
-    }
     updateExpenseList();
 };
