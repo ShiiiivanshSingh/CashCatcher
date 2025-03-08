@@ -3,228 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Expense Tracker</title>
+    <title>CashCatcher | Personal Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css"> 
-    <link rel="icon" type="favicon." href="assets/img/coin.png">
+    <link rel="icon" type="image/png" href="assets/img/coin.png">
 </head>
-<body class="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+<body class="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300 py-8">
+    
     <!-- Landing Page -->
-    <div id="landingPage" class="hidden w-full max-w-lg px-4 animate-fadeIn">
-        <div class="text-center space-y-6">
-            <div class="mb-8">
-                <i class="fas fa-coins text-5xl text-blue-500 mb-4"></i>
-                <h1 class="text-3xl md:text-4xl font-bold mb-3 text-hite dark:text-white">CashCatcher</h1>
-                <p class="text-lg text-gray-600 dark:text-gray-300">
-                    Simple expense tracking for everyone
+    <div id="landingPage" class="hidden w-full max-w-xl px-6 animate-fadeIn">
+        <div class="text-center space-y-8">
+            <div class="mb-10">
+                <div class="flex justify-center mb-4">
+                    <div class="p-4 bg-indigo-500 rounded-full shadow-lg">
+                        <i class="fas fa-coins text-5xl text-white"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">CashCatcher</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+                    Simple, modern expense tracking for everyone
                 </p>
             </div>
             
-            <div class="space-y-3">
+            <div class="space-y-4">
                 <button id="startTracking" 
-                    class="w-full sm:w-auto px-8 py-3 bg-blue-500 text-white rounded-lg 
-                           hover:bg-blue-600 transition-all duration-300 
-                           shadow-md hover:shadow-lg">
+                    class="btn btn-primary px-8 py-4 text-lg">
                     <span class="flex items-center justify-center">
                         <span>Start Tracking</span>
-                        <i class="fas fa-arrow-right ml-2"></i>
+                        <i class="fas fa-arrow-right ml-3"></i>
                     </span>
                 </button>
-                <p class="text-sm text-blue-500 dark:text-white">No sign-up required</p>
+                <p class="text-sm text-indigo-500 dark:text-indigo-300">No sign-up required • Data stored locally</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                    <i class="fas fa-bolt text-blue-500 text-xl mb-2"></i>
-                    <h3 class="font-medium dark:text-white">Quick & Easy</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
+                <div class="card p-6 text-center">
+                    <div class="flex justify-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
+                            <i class="fas fa-bolt text-indigo-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-lg dark:text-white mb-2">Quick & Easy</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Track expenses in just a few clicks</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                    <i class="fas fa-chart-line text-blue-500 text-xl mb-2"></i>
-                    <h3 class="font-medium dark:text-white">Track Spending</h3>
+                <div class="card p-6 text-center">
+                    <div class="flex justify-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900 flex items-center justify-center">
+                            <i class="fas fa-chart-line text-cyan-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-lg dark:text-white mb-2">Track Spending</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Visualize where your money goes</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                    <i class="fas fa-lock text-blue-500 text-xl mb-2"></i>
-                    <h3 class="font-medium dark:text-white">Privacy First</h3>
+                <div class="card p-6 text-center">
+                    <div class="flex justify-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                            <i class="fas fa-lock text-purple-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-lg dark:text-white mb-2">Privacy First</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Your data stays on your device</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Name Input Container -->
-    <div id="nameInputContainer" class="hidden w-full max-w-md px-4 mt-12">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-bold mb-4 text-white dark:text-white text-center">Let's Get Started</h2>
-            <div class="flex items-center space-x-2">
+    <div id="nameInputContainer" class="hidden w-full max-w-md px-6 animate-fadeIn">
+        <div class="card p-8 text-center">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Get Started</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Tell us your name to personalize your experience</p>
+            <div class="flex items-center space-x-3">
                 <input type="text" id="userName" placeholder="Enter your name" 
-                    class="flex-1 p-2 text-lg text-center border-b-2 border-gray-300 dark:border-gray-600
-                           focus:border-blue-500 outline-none bg-transparent
-                           dark:text-white">
+                    class="input-field flex-1 py-3 text-lg text-center border-2 border-gray-300 dark:border-gray-600
+                           focus:border-indigo-500 rounded-full">
                 <button id="submitName" 
-                    class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 
-                           transition-colors duration-300">
-                    <i class="fa-regular fa-circle-check text-lg"></i>
+                    class="action-button w-12 h-12 bg-indigo-500 hover:bg-indigo-600">
+                    <i class="fa-solid fa-arrow-right text-lg"></i>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Expense Section -->
-    <div id="expenseSection" class="hidden container mx-auto px-4 py-8 max-w-2xl">
-        <div class="fixed top-4 right-4 z-50">
-            <button id="menuBtn" class="bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600">
-                <i class="fa-solid fa-house"></i>
-            </button>
-        </div>
-
-        <div id="settingsDrawer" class="drawer bg-white dark:bg-gray-900 shadow-lg p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">Settings</h2>
-                <button id="closeDrawer" class="text-gray-500 hover:text-gray-700">
+    <div id="expenseSection" class="hidden container mx-auto px-4 py-8 max-w-6xl animate-fadeIn">
+        <!-- Drawer overlay -->
+        <div id="drawerOverlay" class="drawer-overlay"></div>
+        
+        <!-- Settings Drawer -->
+        <div class="drawer" id="settingsDrawer">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold dark:text-white">Settings</h2>
+                <button id="closeDrawer" class="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div class="theme-section mb-6">
-                <h3 class="font-semibold mb-2">Theme</h3>
-                <button id="themeToggle" class="w-full bg-gray-600 text-white dark:bg-black p-3 rounded flex justify-between items-center">
-                    <span id="themeText">Light Mode</span>
-                    <i class="fas fa-sun" id="themeIcon"></i>
-                </button>
-            </div>
+            <div class="space-y-8">
+                <div class="theme-section">
+                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Theme</h3>
+                    <button id="themeToggle" class="w-full bg-gray-100 dark:bg-gray-800 p-4 rounded-lg flex justify-between items-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <span id="themeText" class="font-medium">Light Mode</span>
+                        <i class="fas fa-sun text-yellow-500" id="themeIcon"></i>
+                    </button>
+                </div>
 
-            <div class="currency-section mb-6">
-                <h3 class="font-semibold mb-2">Currency</h3>
-                <select id="currencySelect" class="w-full p-2 bg-blue-500 text-white border rounded">
-                    <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (€)</option>
-                    <option value="GBP">GBP (£)</option>
-                    <option value="INR">INR (₹)</option>
-                    <option value="JPY">JPY (¥)</option>
-                </select>
-            </div>
-            
-            <div class="mb-6">
-                <h3 class="font-semibold mb-2">Data Management</h3>
-                <button id="resetData" class="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
-                    Reset All Data
-                </button>
-            </div>
-
-            <div class="mb-6">
-                <h3 class="font-semibold mb-2">Links</h3>
-                <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
-                   class="block mb-2 text-blue-500 hover:text-blue-600">
-                    <i class="fab fa-github mr-2"></i>GitHub Repository
-                </a>
+                <div class="currency-section">
+                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Currency</h3>
+                    <select id="currencySelect" class="input-field bg-indigo-500 text-white py-3 rounded-lg">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="INR">INR (₹)</option>
+                        <option value="JPY">JPY (¥)</option>
+                    </select>
+                </div>
                 
-                <a href="plot.html" target="_blank"
-                   class="block mb-2 text-blue-500 hover:text-blue-600">
-                    <i class="fa-solid fa-plane mr-2"></i>Insights
-                </a>
+                <div>
+                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Data Management</h3>
+                    <button id="resetData" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors">
+                        Reset All Data
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Links</h3>
+                    <div class="space-y-2">
+                        <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
+                          class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fab fa-github mr-3 text-lg"></i>
+                            <span class="font-medium">GitHub Repository</span>
+                        </a>
+                        
+                        <a href="plot.html" target="_blank"
+                          class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fa-solid fa-chart-pie mr-3 text-lg text-indigo-500"></i>
+                            <span class="font-medium">Insights Dashboard</span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-auto text-center bg-gray-600 bg-opacity-90 p-6 rounded-lg shadow-md">
-                <h3 class="font-semibold mb-4 text-white text-2xl">About</h3>
-                <p class="text-sm text-gray-300 mb-4">
-                    Personal Expense Tracker <br>
+            <div class="mt-12 text-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
+                <h3 class="font-semibold mb-4 text-gray-900 dark:text-white text-xl">About CashCatcher</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
                     A simple, efficient way to track your daily expenses.<br>
-                    Made by Shivansh Pratap Singh.<br>
+                    Made with ❤️ by Shivansh Pratap Singh
                 </p>
-                <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-blue-500 hover:text-blue-600 font-semibold">
+                <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-indigo-500 hover:text-indigo-600 font-medium">
                     Visit GitHub Profile
                 </a>
             </div>
         </div>
 
-        <div class="container mx-auto px-4 py-8 max-w-2xl">
-            <div class="mb-8 text-center relative">
-                <div id="welcomeMessage" class="text-gray-600 text-xl hidden">
-                    Welcome back, <span id="nameDisplay" class="font-semibold"></span>! 
-                    <button id="editName" class="text-sm text-blue-500 ml-2">(edit)</button>
+        <div class="fixed top-6 right-6 z-50">
+            <button id="menuBtn" class="action-button shadow-lg hover:bg-indigo-600">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="container mx-auto px-4 py-8 max-w-5xl">
+            <div class="mb-10 text-center relative">
+                <div id="welcomeMessage" class="text-gray-700 dark:text-gray-300 text-2xl hidden animate-fadeIn">
+                    Welcome back, <span id="nameDisplay" class="font-semibold text-indigo-500 dark:text-indigo-400"></span>! 
+                    <button id="editName" class="text-sm text-indigo-500 ml-2 underline">(edit)</button>
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <h2 class="text-xl font-semibold mb-4">Add New Expense</h2>
-                <form id="expenseForm" class="space-y-4">
-                    <div>
-                        <input type="text" id="description" placeholder="Description" required
-                            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
-                    </div>
-                    <div>
-                        <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01"
-                            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent input-field">
-                    </div>
-                    <div>
-                        <div class="flex items-center space-x-2">
-                            <select id="category" required
-                                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent category-select">
-                                <option value="">Select Category</option>
-                                <option value="Food">Food</option>
-                                <option value="BlinkIt">BlinkIt</option>
-                                <option value="Entertainment">Entertainment</option>
-                                <option value="Shopping">Shopping</option>
-                                <option value="Bills">Bills</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <button id="editCategory" class="text-blue-500 hover:text-blue-700">
-                                <i class="fas fa-pencil-alt"></i>  <!-- Pencil Icon -->
-                            </button>
-                            <button id="deleteCategory" class="text-red-500 hover:text-red-700 hidden">
-                                <i class="fas fa-trash"></i>  <!-- Trash Icon -->
-                            </button>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="card md:col-span-2">
+                    <h2 class="text-2xl font-semibold mb-6">Add New Expense</h2>
+                    <form id="expenseForm" class="space-y-5">
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <input type="text" id="description" placeholder="What did you spend on?" required
+                                class="input-field py-3">
                         </div>
-                        <div id="categoryNotification" class="hidden text-green-500 mt-2">Category created successfully!</div>
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Amount</label>
+                            <input type="number" id="amount" placeholder="0.00" required min="0" step="0.01"
+                                class="input-field py-3">
+                        </div>
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+                            <div class="flex items-center space-x-2">
+                                <select id="category" required
+                                    class="input-field py-3 category-select">
+                                    <option value="">Select Category</option>
+                                    <option value="Food">Food</option>
+                                    <option value="BlinkIt">BlinkIt</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <button id="editCategory" class="action-button bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-300">
+                                    <i class="fas fa-plus text-sm"></i>
+                                </button>
+                                <button id="deleteCategory" class="action-button bg-red-500 hover:bg-red-600 hidden">
+                                    <i class="fas fa-trash text-sm"></i>
+                                </button>
+                            </div>
+                            <div id="categoryNotification" class="hidden text-green-500 mt-2 text-sm">
+                                <i class="fas fa-check-circle mr-1"></i> Category added successfully!
+                            </div>
+                        </div>
+                        
+                        <button type="submit"
+                            class="btn btn-primary w-full py-3 mt-2">
+                            <i class="fa-solid fa-plus mr-2"></i> Add Expense
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2 class="text-2xl font-semibold mb-6">Summary</h2>
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
+                        <div class="text-gray-600 dark:text-gray-300 mb-2">Total Expenses</div>
+                        <div id="totalExpenses" class="text-3xl font-bold text-indigo-500">$0</div>
                     </div>
                     
-                    <button type="submit"
-                        class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                        Add Expense
-                    </button>
-                </form>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <h2 class="text-xl font-semibold mb-4">Summary</h2>
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="bg-gray-50 p-4 rounded text-center">
-                        <div class="text-gray-600 text-centre">Total Expenses</div>
-                        <div id="totalExpenses" class="text-2xl font-bold text-blue-500 text-centre">$0</div>
+                    <div class="mt-6">
+                        <a href="plot.html" class="btn btn-primary w-full flex justify-center items-center">
+                            <i class="fa-solid fa-chart-pie mr-2"></i> View Insights
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-4 ">Recent Expenses</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full table-auto">
+            <div class="card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold">Recent Expenses</h2>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Showing recent transactions
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="min-w-full">
                         <thead>
-                            <tr class="border-b border-opacity-50">
-                                <th class="text-left py-2 px-4 text-gray-600">Date</th>
-                                <th class="text-left py-2 px-4 text-gray-600">Description</th>
-                                <th class="text-left py-2 px-4 text-gray-600">Category</th>
-                                <th class="text-left py-2 px-4 text-gray-600">Amount</th>
-                                <th class="text-left py-2 px-4 text-gray-600">Action</th>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="expenseList">
+                            <!-- Expense list will be populated here by JavaScript -->
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-4 mt-4 text-center">
-                <h2 class="text-xl font-semibold mb-4">Insights</h2>
-                <p class="text-gray-600 mb-4">
-                    Want to take a deeper look into your spending habits?<br> 
-                    Click on the button below to view detailed insights into your expenses. <br>
-                </p>
-                <div>
-                    <a href="plot.html" target="_blank" class="block mb-2">
-                        <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                            <i class="fa-brands fa-dribbble mr-2"></i>Insights!
-                        </button>
-                    </a>
                 </div>
             </div>
         </div>
@@ -262,6 +295,35 @@
                 document.getElementById('submitName').click();
             }
         });
+        
+        // Fixed drawer toggle functionality with animation delay
+        document.getElementById('menuBtn').addEventListener('click', function() {
+            // First show the overlay
+            document.getElementById('drawerOverlay').classList.add('open');
+            // Then after a tiny delay, show the drawer for smoother animation
+            setTimeout(function() {
+                document.getElementById('settingsDrawer').classList.add('open');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when drawer is open
+        });
+
+        document.getElementById('closeDrawer').addEventListener('click', function() {
+            closeDrawer();
+        });
+        
+        document.getElementById('drawerOverlay').addEventListener('click', function() {
+            closeDrawer();
+        });
+        
+        // Helper function to close the drawer
+        function closeDrawer() {
+            document.getElementById('settingsDrawer').classList.remove('open');
+            // Small delay before hiding overlay for smoother transition
+            setTimeout(function() {
+                document.getElementById('drawerOverlay').classList.remove('open');
+            }, 300);
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
     </script>
 </body>
 </html>
