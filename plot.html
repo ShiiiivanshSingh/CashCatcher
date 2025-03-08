@@ -119,35 +119,7 @@
     </div>
 
     <script src="plot/plot.js"></script>
-    <script>
-        // Fixed drawer toggle functionality with animation delay
-        document.getElementById('menuBtn').addEventListener('click', function() {
-            // First show the overlay
-            document.getElementById('drawerOverlay').classList.add('open');
-            // Then after a tiny delay, show the drawer for smoother animation
-            setTimeout(function() {
-                document.getElementById('settingsDrawer').classList.add('open');
-            }, 10);
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when drawer is open
-        });
-
-        document.getElementById('closeDrawer').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        document.getElementById('drawerOverlay').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        // Helper function to close the drawer
-        function closeDrawer() {
-            document.getElementById('settingsDrawer').classList.remove('open');
-            // Small delay before hiding overlay for smoother transition
-            setTimeout(function() {
-                document.getElementById('drawerOverlay').classList.remove('open');
-            }, 300);
-            document.body.style.overflow = ''; // Re-enable scrolling
-        }
-    </script>
+    <script src="script.js"></script>
+    <!-- Drawer functionality is now handled in script.js -->
 </body>
 </html>
