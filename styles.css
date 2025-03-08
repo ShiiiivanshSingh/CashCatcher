@@ -44,6 +44,7 @@ button, input, select {
 button {
     cursor: pointer;
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 /* Animation */
@@ -247,6 +248,8 @@ html.dark .drawer {
     box-shadow: var(--shadow-md);
     transition: var(--transition);
     border: none;
+    flex-shrink: 0;
+    min-width: 40px;
 }
 
 .action-button:hover {
@@ -258,6 +261,7 @@ html.dark .drawer {
 /* Tooltip styles */
 #editCategory {
     position: relative;
+    flex: 0 0 auto;
 }
 
 #editCategory:hover::after {
@@ -383,11 +387,46 @@ canvas {
 /* Fix specific layout issues */
 @media (max-width: 768px) {
     .drawer {
-        width: 85vw;
+        width: 90vw;
+        max-height: 85vh;
     }
     
     .card {
         padding: 1.25rem;
+    }
+    
+    /* Fix for input groups with buttons */
+    .input-group {
+        display: flex;
+        align-items: center;
+    }
+    
+    .input-group .action-button {
+        flex: 0 0 auto;
+    }
+    
+    /* Prevent currency select from overflowing */
+    .currency-select {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    /* Ensure proper spacing for name input group */
+    #nameInputContainer .flex {
+        flex-wrap: nowrap;
+    }
+    
+    /* Fix for buttons inside name input container */
+    #nameInputContainer .action-button {
+        flex: 0 0 auto;
+    }
+    
+    .btn {
+        width: auto;
+        min-width: 120px;
+        max-width: 100%;
     }
 }
 
@@ -401,4 +440,104 @@ html, body {
     width: 100%;
     overflow-x: hidden;
     position: relative;
+}
+
+/* Fix for responsive button containers */
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure all buttons maintain shape */
+button {
+    flex-shrink: 0;
+}
+
+/* Fix for category buttons */
+#editCategory, #deleteCategory {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+#editCategory:hover::after {
+    content: "Add Custom Category";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 0.75rem;
+    background-color: var(--card-dark);
+    color: var(--text-light);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+
+/* Additional fixes for mobile layout */
+
+/* Adjust button sizing for smallest screens */
+@media (max-width: 360px) {
+    .action-button {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Ensure form inputs have proper padding */
+    .input-field {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* Fix for alignment in form groups */
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ensure buttons maintain their shape */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Fix for button with icons */
+.btn i {
+    flex-shrink: 0;
+}
+
+/* Fix button container for proper centering */
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Fix for form buttons that should be full width */
+.form-button-full {
+    width: 100%;
+}
+
+/* Adjust menu button position for better visibility */
+#menuBtn {
+    transform: scale(1);
+    transition: transform 0.2s ease;
+}
+
+#menuBtn:hover,
+#menuBtn:active {
+    transform: scale(1.1);
 }
