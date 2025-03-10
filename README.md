@@ -12,6 +12,7 @@
 
 <h2>✨ Features</h2>
 
+
 Here are some of the project's best features:
 
 * **Clean, Modern UI** - Intuitive and visually appealing interface with light/dark mode support
