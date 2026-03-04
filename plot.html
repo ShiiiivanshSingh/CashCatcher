@@ -1,153 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>CashCatcher | Expense Insights</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="assets/img/coin.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CashCatcher | Insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen py-8">
-    <!-- Drawer overlay -->
-    <div id="drawerOverlay" class="drawer-overlay"></div>
-    
-    <!-- Menu Button -->
-    <div class="fixed top-6 right-6 z-50">
-        <button id="menuBtn" class="action-button shadow-lg hover:bg-indigo-600">
-            <i class="fas fa-bars"></i>
-        </button>
+  <button class="btn-icon ghost" id="menuBtn"><i class="fas fa-bars"></i></button>
+  <div class="overlay" id="drawerOverlay"></div>
+
+  <div class="drawer" id="settingsDrawer">
+    <div class="drawer-header">
+      <span class="drawer-title">Settings</span>
+      <button class="btn-icon ghost" id="closeDrawer" style="width:32px;height:32px;font-size:0.85rem;">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-
-    <!-- Settings Drawer -->
-    <div id="settingsDrawer" class="drawer">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold dark:text-white">Settings</h2>
-            <button id="closeDrawer" class="p-2 text-gray-500 hover:text-gray-700 dark:text-white dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <!-- Links -->
-        <div class="space-y-8">
-            <div>
-                <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Navigation</h3>
-                <a href="index.html" class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors mb-3">
-                    <i class="fa-solid fa-home mr-3 text-lg text-indigo-500"></i>
-                    <span class="font-medium">Back to Dashboard</span>
-                </a>
-            
-                <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank" class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                    <i class="fab fa-github mr-3 text-lg"></i>
-                    <span class="font-medium">GitHub Repository</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- About Section -->
-        <div class="mt-12 text-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
-            <h3 class="font-semibold mb-4 text-gray-900 dark:text-white text-xl">About CashCatcher</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-                A simple, efficient way to track your daily expenses.<br>
-                Made with ❤️ by Shivansh Pratap Singh<br>
-                <span class="text-gray-500 text-sm">Special thanks to Akshat Omar for the support!</span>
-            </p>
-            <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-indigo-500 hover:text-indigo-600 font-medium">
-                Visit GitHub Profile
-            </a>
-        </div>
+    <div class="drawer-section">
+      <h3>Theme</h3>
+      <button class="theme-toggle-btn" id="themeToggle">
+        <span id="themeText">Dark Mode</span>
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
     </div>
-
-    <!-- Main Content -->
-    <div class="max-w-6xl mx-auto px-6 py-6 animate-fadeIn">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-4">Expense Insights</h1>
-            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Analyze your spending patterns and make informed financial decisions
-            </p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Day of Expenditure -->
-            <div class="card">
-                <h2 class="text-xl font-semibold mb-6">Day of Expenditure</h2>
-                <canvas id="dayPieChart" class="w-full h-72"></canvas>
-            </div>
-
-            <!-- Overall Spending Distribution -->
-            <div class="card">
-                <h2 class="text-xl font-semibold mb-6">Spending Distribution</h2>
-                <canvas id="categoryPieChart" class="w-full h-72"></canvas>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            <!-- Monthly/Weekly Expenses -->
-            <div class="card">
-                <h2 class="text-xl font-semibold mb-6">Monthly Expenses</h2>
-                <canvas id="categoryBarChart" class="w-full h-72"></canvas>
-            </div>
-
-            <!-- Spending Patterns -->
-            <div class="card">
-                <h2 class="text-xl font-semibold mb-6">Spending by Day of Week</h2>
-                <canvas id="spendingHeatmap" class="w-full h-72"></canvas>
-            </div>
-        </div>
-
-        <div class="card mt-8">
-            <h2 class="text-xl font-semibold mb-6">Spending Trends Over Time</h2>
-            <canvas id="spendingLineChart" class="w-full h-96"></canvas>
-        </div>
-
-        <div class="text-center mt-12">
-            <div class="button-container">
-                <a href="index.html" class="btn btn-primary inline-flex items-center px-8 py-3">
-                    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-                </a>
-            </div>
-        </div>
+    <div class="drawer-section">
+      <h3>Navigation</h3>
+      <a href="index.html" class="drawer-link"><i class="fas fa-home"></i> Back to Dashboard</a>
+      <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank" class="drawer-link">
+        <i class="fab fa-github"></i> GitHub Repository
+      </a>
     </div>
+    <div class="about-box">
+      <strong>CashCatcher</strong><br>
+      Made with ❤️ by Shivansh Pratap Singh<br>
+      Special thanks to Akshat Omar<br>
+      <a href="https://github.com/ShiiiivanshSingh" target="_blank">GitHub Profile</a>
+    </div>
+  </div>
 
-    <script src="plot/plot.js"></script>
-    <script>
-        // Fixed drawer toggle functionality with animation delay
-        document.getElementById('menuBtn').addEventListener('click', function() {
-            // First show the overlay
-            document.getElementById('drawerOverlay').classList.add('open');
-            // Then after a tiny delay, show the drawer for smoother animation
-            setTimeout(function() {
-                document.getElementById('settingsDrawer').classList.add('open');
-            }, 10);
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when drawer is open
-        });
+  <div class="page">
+    <div class="page-header">
+      <h1>Expense Insights</h1>
+      <p>Analyze your spending patterns</p>
+    </div>
+    <div id="mainContent"></div>
+    <div class="back-row">
+      <a href="index.html" class="btn btn-ghost"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </div>
 
-        document.getElementById('closeDrawer').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        document.getElementById('drawerOverlay').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        // Helper function to close the drawer
-        function closeDrawer() {
-            document.getElementById('settingsDrawer').classList.remove('open');
-            // Small delay before hiding overlay for smoother transition
-            setTimeout(function() {
-                document.getElementById('drawerOverlay').classList.remove('open');
-            }, 300);
-            document.body.style.overflow = ''; // Re-enable scrolling
-        }
-    </script>
+  <footer class="site-footer">
+    <strong>CashCatcher</strong>
+    <span class="footer-dot">·</span>
+    by <a href="https://github.com/ShiiiivanshSingh" target="_blank">Shivansh Pratap Singh</a>
+    <span class="footer-dot">·</span>
+    Made on New Year's Eve, 2025
+  </footer>
+
+  <script src="plot.js"></script>
 </body>
 </html>

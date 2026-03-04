@@ -1,239 +1,246 @@
+const PREDEFINED = ["Food","BlinkIt","Entertainment","Shopping","Bills","Other"];
+const EXCHANGE   = { INR:1, USD:0.012, EUR:0.011, GBP:0.0095, JPY:1.65 };
+const SYMBOLS    = { INR:"₹", USD:"$", EUR:"€", GBP:"£", JPY:"¥" };
+const BCOLORS    = ['#6366f1','#8b5cf6','#06b6d4','#f59e0b','#ef4444','#22c55e','#ec4899','#f97316'];
+
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-let currency = localStorage.getItem('currency') || 'INR'; // INR default currency
+let currency = localStorage.getItem('currency') || 'INR';
 
-const themeToggle = document.getElementById('themeToggle');
-const themeText = document.getElementById('themeText');
-const themeIcon = document.getElementById('themeIcon');
-const menuBtn = document.getElementById('menuBtn');
-const settingsDrawer = document.getElementById('settingsDrawer');
-const closeDrawer = document.getElementById('closeDrawer');
-const expenseForm = document.getElementById('expenseForm');
-const expenseList = document.getElementById('expenseList');
-const totalExpenses = document.getElementById('totalExpenses');
-const currencySelect = document.getElementById('currencySelect');
-const resetData = document.getElementById('resetData');
-const userNameInput = document.getElementById('userName');
-const submitNameButton = document.getElementById('submitName');
-const nameDisplay = document.getElementById('nameDisplay');
-const nameInputContainer = document.getElementById('nameInputContainer');
-const welcomeMessage = document.getElementById('welcomeMessage');
-const editNameButton = document.getElementById('editName');
-
-const editCategoryButton = document.getElementById('editCategory');
-const categorySelect = document.getElementById('category');
-const deleteCategoryButton = document.getElementById('deleteCategory');
-const categoryNotification = document.getElementById('categoryNotification');
-
-// Check if a name is already stored
-const storedName = localStorage.getItem('userName');
-if (storedName) {
-    welcomeMessage.classList.remove('hidden');
-    nameDisplay.innerText = storedName;
-    nameInputContainer.classList.add('hidden');
-    document.getElementById('expenseSection').classList.remove('hidden'); // Show expense section for returning users
-} else {
-    document.getElementById('nameInputContainer').classList.remove('hidden'); // Show name input for new users
+/* ── UTILS ─────────────────────────────────────────────── */
+function showToast(msg, color) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color || 'var(--success)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
 }
 
-// Handle custom category input when the pencil icon is clicked
-editCategoryButton.addEventListener('click', () => {
-    const customCategory = prompt("Enter a custom category:");
-
-    if (customCategory) {
-        // Check if the category already exists
-        const existingCategories = Array.from(categorySelect.options).map(option => option.value);
-
-        if (!existingCategories.includes(customCategory)) {
-            // Add the custom category to the dropdown
-            const newOption = document.createElement('option');
-            newOption.value = customCategory;
-            newOption.textContent = customCategory;
-            categorySelect.appendChild(newOption);
-
-            // Show success notification
-            categoryNotification.classList.remove('hidden');
-            setTimeout(() => {
-                categoryNotification.classList.add('hidden');
-            }, 3000);  // Hide notification after 3 seconds
-        } else {
-            alert("This category already exists.");
-        }
-    }
-});
-
-// Handle deleting a custom category when the trash icon is clicked
-deleteCategoryButton.addEventListener('click', () => {
-    const selectedCategory = categorySelect.value;
-
-    if (selectedCategory && selectedCategory !== "") {
-        // Check if it's a custom category (not predefined)
-        const predefinedCategories = ["Food", "BlinkIt", "Entertainment", "Shopping", "Bills", "Other"];
-        
-        if (!predefinedCategories.includes(selectedCategory)) {
-            const optionToRemove = categorySelect.querySelector(`option[value="${selectedCategory}"]`);
-            categorySelect.removeChild(optionToRemove);
-        } else {
-            alert("You cannot delete predefined categories.");
-        }
-    } else {
-        alert("Please select a category to delete.");
-    }
-});
-
-// Show delete button when a custom category is selected
-categorySelect.addEventListener('change', () => {
-    const selectedCategory = categorySelect.value;
-    const predefinedCategories = ["Food", "BlinkIt", "Entertainment", "Shopping", "Bills", "Other"];
-
-    // Show the delete button if a custom category is selected
-    if (selectedCategory && !predefinedCategories.includes(selectedCategory)) {
-        deleteCategoryButton.classList.remove('hidden');
-    } else {
-        deleteCategoryButton.classList.add('hidden');
-    }
-});
-
-// Exchange rates (INR is the base currency)
-const exchangeRates = {
-    INR: 1,
-    USD: 0.012,
-    EUR: 0.011,
-    GBP: 0.0095,
-    JPY: 1.65
-};
-
-// Set the currency dropdown to the stored value or default to INR
-currencySelect.value = currency;
-
-// Check if dark mode is saved in localStorage or default to dark mode
-const isDarkMode = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && true); // default to dark mode if not set
-if (isDarkMode) {
-    document.documentElement.classList.add('dark');
-    themeText.innerText = 'Dark Mode';
-    themeIcon.className = 'fas fa-moon';
-} else {
-    document.documentElement.classList.remove('dark');
-    themeText.innerText = 'Light Mode';
-    themeIcon.className = 'fas fa-sun';
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-// Theme toggle functionality
-themeToggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    themeText.innerText = isDarkMode ? 'Dark Mode' : 'Light Mode';
-    themeIcon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+function convertAmt(amtINR, cur) { return amtINR * (EXCHANGE[cur] || 1); }
+function fmtAmt(amtINR, cur) { return (SYMBOLS[cur] || '') + convertAmt(amtINR, cur).toFixed(2); }
 
-    // Save the theme preference in localStorage
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+function setTodayDate() {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  document.getElementById('expenseDate').value = `${y}-${m}-${d}`;
+}
+
+/* ── THEME ─────────────────────────────────────────────── */
+function applyTheme(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  document.documentElement.classList.toggle('light', !dark);
+  document.getElementById('themeText').textContent = dark ? 'Dark Mode' : 'Light Mode';
+  document.getElementById('themeIcon').className = dark ? 'fas fa-moon' : 'fas fa-sun';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  applyTheme(!document.documentElement.classList.contains('dark'));
 });
 
-// Menu drawer toggle
-menuBtn.addEventListener('click', () => {
-    settingsDrawer.classList.toggle('open');
+/* ── CURRENCY ───────────────────────────────────────────── */
+document.getElementById('currencySelect').addEventListener('change', function () {
+  currency = this.value;
+  localStorage.setItem('currency', currency);
+  renderExpenses();
 });
 
-closeDrawer.addEventListener('click', () => {
-    settingsDrawer.classList.remove('open');
+/* ── DRAWER ─────────────────────────────────────────────── */
+function openDrawer() {
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('settingsDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawerFn() {
+  document.getElementById('settingsDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('menuBtn').addEventListener('click', openDrawer);
+document.getElementById('closeDrawer').addEventListener('click', closeDrawerFn);
+document.getElementById('drawerOverlay').addEventListener('click', closeDrawerFn);
+
+/* ── NAME FLOW ──────────────────────────────────────────── */
+document.getElementById('startTracking').addEventListener('click', () => {
+  showScreen('screen-name');
+  setTimeout(() => document.getElementById('userName').focus(), 80);
 });
 
-// Currency select handler
-currencySelect.addEventListener('change', () => {
-    currency = currencySelect.value;
-    localStorage.setItem('currency', currency);
-    updateExpenseList();
+function submitName() {
+  const name = document.getElementById('userName').value.trim();
+  if (!name) return;
+  localStorage.setItem('userName', name);
+  document.getElementById('nameDisplay').textContent = name;
+  showScreen('screen-app');
+  renderExpenses();
+}
+document.getElementById('submitName').addEventListener('click', submitName);
+document.getElementById('userName').addEventListener('keypress', e => {
+  if (e.key === 'Enter') submitName();
 });
 
-// Reset Data
-resetData.addEventListener('click', () => {
-    localStorage.removeItem('expenses');
-    expenses = [];
-    updateExpenseList();
+document.getElementById('editName').addEventListener('click', () => {
+  document.getElementById('userName').value = localStorage.getItem('userName') || '';
+  showScreen('screen-name');
 });
 
-// Add expense
-expenseForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const description = document.getElementById('description').value;
-    const amount = parseFloat(document.getElementById('amount').value);
-    const category = document.getElementById('category').value;
-    const date = new Date().toLocaleDateString();
-    const uniqueID = Date.now();  // Unique ID based on timestamp
-
-    if (!description || !amount || !category) return;
-
-    // Store the expense amount in INR, regardless of the selected currency
-    expenses.push({ description, amount: amount / (exchangeRates[currency] || 1), category, date, uniqueID, currency: 'INR' });
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-
-    updateExpenseList();
-    expenseForm.reset();  // Reset form fields
+/* ── CATEGORY ───────────────────────────────────────────── */
+document.getElementById('category').addEventListener('change', function () {
+  document.getElementById('deleteCategory').style.display =
+    this.value && !PREDEFINED.includes(this.value) ? 'flex' : 'none';
 });
 
-// Delete expense
+document.getElementById('editCategory').addEventListener('click', () => {
+  const cat = prompt('Enter a new category name:');
+  if (!cat || !cat.trim()) return;
+  const clean = cat.trim();
+  const sel = document.getElementById('category');
+  if (Array.from(sel.options).some(o => o.value === clean)) {
+    showToast('Category already exists', '#f59e0b');
+    return;
+  }
+  const opt = document.createElement('option');
+  opt.value = clean;
+  opt.textContent = clean;
+  sel.appendChild(opt);
+  sel.value = clean;
+  document.getElementById('deleteCategory').style.display = 'flex';
+  showToast('Category added!');
+});
+
+document.getElementById('deleteCategory').addEventListener('click', () => {
+  const sel = document.getElementById('category');
+  const val = sel.value;
+  if (!val || PREDEFINED.includes(val)) return;
+  sel.querySelector(`option[value="${CSS.escape(val)}"]`).remove();
+  sel.value = '';
+  document.getElementById('deleteCategory').style.display = 'none';
+});
+
+/* ── FORM SUBMIT ────────────────────────────────────────── */
+document.getElementById('expenseForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const desc    = document.getElementById('description').value.trim();
+  const amt     = parseFloat(document.getElementById('amount').value);
+  const cat     = document.getElementById('category').value;
+  const dateVal = document.getElementById('expenseDate').value;
+  if (!desc || !amt || !cat || !dateVal) return;
+
+  const displayDate = new Date(dateVal + 'T00:00:00').toLocaleDateString();
+  expenses.push({
+    description: desc,
+    amount: amt / (EXCHANGE[currency] || 1),
+    category: cat,
+    date: displayDate,
+    uniqueID: Date.now()
+  });
+  localStorage.setItem('expenses', JSON.stringify(expenses));
+  renderExpenses();
+
+  document.getElementById('description').value = '';
+  document.getElementById('amount').value = '';
+  document.getElementById('category').value = '';
+  document.getElementById('deleteCategory').style.display = 'none';
+  setTodayDate();
+  showToast('Expense added!');
+});
+
+/* ── DELETE ─────────────────────────────────────────────── */
 function deleteExpense(id) {
-    expenses = expenses.filter((expense) => expense.uniqueID !== id);
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-    updateExpenseList();
+  expenses = expenses.filter(ex => ex.uniqueID !== id);
+  localStorage.setItem('expenses', JSON.stringify(expenses));
+  renderExpenses();
+  showToast('Deleted', '#ef4444');
 }
 
-// Convert amount from INR to selected currency
-function convertCurrency(amount, targetCurrency) {
-    if (targetCurrency === 'INR') {
-        return amount; // No conversion needed if INR is selected
-    }
-    return amount * exchangeRates[targetCurrency]; // Convert using the exchange rate
-}
+/* ── RENDER ─────────────────────────────────────────────── */
+function renderExpenses() {
+  const tbody  = document.getElementById('expenseList');
+  const sorted = [...expenses].sort((a, b) => b.uniqueID - a.uniqueID);
+  let total = 0;
+  tbody.innerHTML = '';
 
-// Update the expense list and convert amounts based on the selected currency
-function updateExpenseList() {
-    expenseList.innerHTML = '';
-    let total = 0;
-
-     // Sort expenses by date in descending order
-    expenses.reverse().sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    expenses.forEach(expense => {
-        const convertedAmount = convertCurrency(expense.amount, currency); // Convert amount based on selected currency
-        const row = document.createElement('tr');
-        row.className = 'border-b border-opacity-10';
-        row.innerHTML = `
-            <td class="py-2 px-4">${expense.date}</td>
-            <td class="py-2 px-4">${expense.description}</td>
-            <td class="py-2 px-4">${expense.category}</td>
-            <td class="py-2 px-4">${currency} ${convertedAmount.toFixed(2)}</td>
-            <td class="py-2 px-4">
-                <button onclick="deleteExpense(${expense.uniqueID})" class="text-red-500 hover:text-red-700">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
-        expenseList.appendChild(row);
-        total += convertedAmount;
+  if (!sorted.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fas fa-receipt"></i>No expenses yet — add your first one!</div></td></tr>`;
+  } else {
+    sorted.forEach(ex => {
+      total += convertAmt(ex.amount, currency);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="color:var(--muted);font-size:0.82rem;white-space:nowrap">${ex.date}</td>
+        <td style="font-weight:500">${ex.description}</td>
+        <td><span class="badge">${ex.category}</span></td>
+        <td class="amount-cell">${fmtAmt(ex.amount, currency)}</td>
+        <td>
+          <button onclick="deleteExpense(${ex.uniqueID})"
+            class="btn-icon ghost"
+            style="width:30px;height:30px;font-size:0.75rem;color:var(--danger);border-color:transparent;">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>`;
+      tbody.appendChild(tr);
     });
-    totalExpenses.innerText = `${currency} ${total.toFixed(2)}`;
+  }
+
+  const sym = SYMBOLS[currency] || '';
+  document.getElementById('totalExpenses').textContent = sym + total.toFixed(2);
+  const txText = sorted.length ? `${sorted.length} transaction${sorted.length > 1 ? 's' : ''}` : '0 transactions';
+  document.getElementById('expenseCount').textContent = sorted.length ? txText : '';
+  document.getElementById('txCount').textContent = txText;
+
+  const catTotals = {};
+  expenses.forEach(ex => {
+    catTotals[ex.category] = (catTotals[ex.category] || 0) + convertAmt(ex.amount, currency);
+  });
+  const catEntries = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+  const maxCat = catEntries[0]?.[1] || 1;
+  const breakdown = document.getElementById('categoryBreakdown');
+
+  if (!catEntries.length) {
+    breakdown.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;">No data yet</div>';
+  } else {
+    breakdown.innerHTML = catEntries.slice(0, 6).map(([cat, val], i) => `
+      <div class="cat-bar-row">
+        <div class="cat-bar-label">
+          <span>${cat}</span>
+          <span>${sym}${val.toFixed(2)}</span>
+        </div>
+        <div class="cat-bar-track">
+          <div class="cat-bar-fill" style="width:${(val / maxCat * 100).toFixed(1)}%;background:${BCOLORS[i % BCOLORS.length]}"></div>
+        </div>
+      </div>`).join('');
+  }
 }
 
-// Name input & display
-submitNameButton.addEventListener('click', () => {
-    const name = userNameInput.value;
-    if (name) {
-        localStorage.setItem('userName', name);
-        welcomeMessage.classList.remove('hidden');
-        nameDisplay.innerText = name;
-        nameInputContainer.classList.add('hidden');
-        document.getElementById('expenseSection').classList.remove('hidden'); // Show expense section after entering name
-    }
+/* ── RESET ──────────────────────────────────────────────── */
+document.getElementById('resetData').addEventListener('click', () => {
+  if (!confirm('Reset all expense data? This cannot be undone.')) return;
+  localStorage.removeItem('expenses');
+  expenses = [];
+  renderExpenses();
+  closeDrawerFn();
+  showToast('All data cleared', '#ef4444');
 });
 
-// Edit name
-editNameButton.addEventListener('click', () => {
-    welcomeMessage.classList.add('hidden');
-    nameInputContainer.classList.remove('hidden');
-});
+/* ── INIT ───────────────────────────────────────────────── */
+(function init() {
+  const savedTheme = localStorage.getItem('theme');
+  applyTheme(savedTheme ? savedTheme === 'dark' : true);
+  document.getElementById('currencySelect').value = currency;
+  setTodayDate();
 
-// Load saved data
-window.onload = () => {
-    updateExpenseList();
-};
+  const name = localStorage.getItem('userName');
+  if (name) {
+    document.getElementById('nameDisplay').textContent = name;
+    showScreen('screen-app');
+    renderExpenses();
+  } else {
+    showScreen('screen-landing');
+  }
+})();

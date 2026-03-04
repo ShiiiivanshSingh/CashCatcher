@@ -1,230 +1,173 @@
-/* Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
 :root {
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --secondary-color: #06b6d4;
-    --accent-color: #8b5cf6;
-    --text-light: #f9fafb;
-    --text-dark: #111827;
-    --bg-light: #f9fafb;
-    --bg-dark: #111827;
-    --card-light: #ffffff;
-    --card-dark: #1f2937;
-    --input-light: #f3f4f6;
-    --input-dark: #374151;
-    --border-light: #e5e7eb;
-    --border-dark: #4b5563;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --radius-sm: 0.25rem;
-    --radius-md: 0.375rem;
-    --radius-lg: 0.5rem;
-    --transition: all 0.3s ease;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg: #0f0f13;
+    --surface: #17171d;
+    --surface-2: #1e1e26;
+    --border: #2a2a35;
+    --text: #e8e8f0;
+    --text-muted: #6b6b80;
+    --text-dim: #9898b0;
+    --success: #34d399;
+    --danger: #f87171;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.2s ease;
 }
 
-/* Global Styles */
-body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    transition: var(--transition);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-button, input, select {
-    font-family: inherit;
-    outline: none;
-}
-
-button {
-    cursor: pointer;
-    transition: var(--transition);
-    flex-shrink: 0;
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fadeIn {
-    animation: fadeIn 0.5s ease forwards;
-}
-
-/* Light/Dark Mode */
 html.light {
-    color-scheme: light;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    --bg: #f5f5f8;
+    --surface: #ffffff;
+    --surface-2: #f0f0f5;
+    --border: #e0e0ea;
+    --text: #111118;
+    --text-muted: #8888a0;
+    --text-dim: #555568;
 }
 
-html.dark {
-    color-scheme: dark;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
 }
 
-html.dark .bg-white {
-    background-color: var(--card-dark);
-    color: var(--text-light);
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--transition), color var(--transition);
 }
 
-html.dark .text-gray-900 {
-    color: var(--text-light);
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-html.dark .text-gray-600 {
-    color: #d1d1d1;
-}
+.animate-fadeIn { animation: fadeUp 0.4s ease forwards; }
 
-html.dark .text-gray-500 {
-    color: #9ca3af;
-}
-
-html.dark .bg-gray-50 {
-    background-color: var(--input-dark);
-}
-
-html.dark .border {
-    border-color: var(--border-dark);
-}
-
-html.dark .input-field, html.dark .category-select {
-    background-color: var(--input-dark);
-    border-color: var(--border-dark);
-    color: var(--text-light);
-}
-
-html.dark .category-select option {
-    background-color: var(--card-dark);
-    color: var(--text-light);
-}
-
-/* Components */
 .card {
-    background-color: var(--card-light);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: var(--transition);
-    border: 1px solid var(--border-light);
-}
-
-html.dark .card {
-    background-color: var(--card-dark);
-    border-color: var(--border-dark);
+    margin-bottom: 1.25rem;
 }
 
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.9rem;
     font-weight: 500;
-    transition: var(--transition);
     border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-    box-shadow: var(--shadow-sm);
+    background: var(--primary);
+    color: #fff;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover);
+    background: var(--primary-hover);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+}
+
+.btn-ghost {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .input-field {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    background-color: var(--input-light);
-    transition: var(--transition);
-    font-size: 1rem;
+    padding: 0.65rem 0.9rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--transition);
 }
 
-.input-field:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+.input-field:focus { border-color: var(--primary); }
+.input-field::placeholder { color: var(--text-muted); }
+
+select.input-field option {
+    background: var(--surface);
+    color: var(--text);
 }
 
-html.dark .input-field {
-    background-color: var(--input-dark);
-    border-color: var(--border-dark);
+.action-button {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: inherit;
+    flex-shrink: 0;
 }
 
-/* Modal & Drawer */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+.action-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
 }
 
-.drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 320px;
-    height: 100%;
-    max-height: 100vh;
-    will-change: transform;
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    z-index: 1050;
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    background-color: var(--card-light);
-    border-left: 1px solid var(--border-light);
-    visibility: hidden;
-    opacity: 0;
-    box-sizing: border-box;
+.action-button.ghost {
+    background: var(--surface-2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
 }
 
-html.dark .drawer {
-    background-color: var(--card-dark);
-    border-left: 1px solid var(--border-dark);
+.action-button.ghost:hover {
+    background: var(--surface);
+    color: var(--text);
 }
 
-.drawer.open {
-    transform: translateX(0);
-    visibility: visible;
-    opacity: 1;
+.action-button.danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid transparent;
 }
 
-/* Overlay for drawer */
+.action-button.danger:hover {
+    background: rgba(248,113,113,0.1);
+    border-color: var(--danger);
+}
+
 .drawer-overlay {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    inset: 0;
+    background: rgba(0,0,0,0.5);
     z-index: 1040;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -232,312 +175,86 @@ html.dark .drawer {
 .drawer-overlay.open {
     display: block;
     opacity: 1;
-    pointer-events: auto;
 }
 
-/* Actions */
-.action-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--primary-color);
-    color: white;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition);
-    border: none;
-    flex-shrink: 0;
-    min-width: 40px;
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 1050;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    padding: 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
-.action-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    background-color: var(--primary-hover);
-}
+.drawer.open { transform: translateX(0); }
 
-/* Tooltip styles */
-#editCategory {
-    position: relative;
-    flex: 0 0 auto;
-}
-
-#editCategory:hover::after {
-    content: "Add Custom Category";
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.5rem 0.75rem;
-    background-color: var(--card-dark);
-    color: var(--text-light);
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    white-space: nowrap;
-    box-shadow: var(--shadow-md);
-    z-index: 10;
-}
-
-.avatar {
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-/* Tables */
 .table-container {
     overflow-x: auto;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
 }
 
-html.dark .table-container {
-    border-color: var(--border-dark);
-}
-
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
+table { width: 100%; border-collapse: collapse; }
 
 th {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.72rem;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    background: var(--surface-2);
     text-align: left;
-    color: var(--text-dark);
-    background-color: var(--input-light);
-    border-bottom: 1px solid var(--border-light);
-}
-
-html.dark th {
-    color: var(--text-light);
-    background-color: var(--input-dark);
-    border-bottom: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border);
 }
 
 td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-light);
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
 }
 
-html.dark td {
-    border-bottom: 1px solid var(--border-dark);
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-2); }
+
+canvas { border: none !important; }
+
+.notification {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--success);
+    margin-top: 0.4rem;
 }
 
-tr:last-child td {
-    border-bottom: none;
+.notification.show { display: flex; }
+
+#menuBtn { z-index: 1100; }
+
+.empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-/* Charts */
-canvas {
-    border: none !important;
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    opacity: 0.4;
 }
 
-/* Fix for Tailwind Dark Mode */
-.dark .dark\:bg-gray-800 {
-    background-color: var(--card-dark) !important;
-}
-
-.dark .dark\:bg-gray-900 {
-    background-color: var(--bg-dark) !important;
-}
-
-.dark .dark\:text-white {
-    color: var(--text-light) !important;
-}
-
-.dark .dark\:text-gray-300 {
-    color: #d1d1d1 !important;
-}
-
-.dark .dark\:text-gray-400 {
-    color: #9ca3af !important;
-}
-
-/* Fix rounded corners for inputs and buttons */
-.rounded-lg {
-    border-radius: var(--radius-lg) !important;
-}
-
-.rounded-full {
-    border-radius: 9999px !important;
-}
-
-/* Override Tailwind styles for better accessibility */
-.text-indigo-500 {
-    color: var(--primary-color) !important;
-}
-
-.bg-indigo-500 {
-    background-color: var(--primary-color) !important;
-}
-
-.hover\:bg-indigo-600:hover {
-    background-color: var(--primary-hover) !important;
-}
-
-/* Fix specific layout issues */
 @media (max-width: 768px) {
-    .drawer {
-        width: 90vw;
-        max-height: 85vh;
-    }
-    
-    .card {
-        padding: 1.25rem;
-    }
-    
-    /* Fix for input groups with buttons */
-    .input-group {
-        display: flex;
-        align-items: center;
-    }
-    
-    .input-group .action-button {
-        flex: 0 0 auto;
-    }
-    
-    /* Prevent currency select from overflowing */
-    .currency-select {
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    
-    /* Ensure proper spacing for name input group */
-    #nameInputContainer .flex {
-        flex-wrap: nowrap;
-    }
-    
-    /* Fix for buttons inside name input container */
-    #nameInputContainer .action-button {
-        flex: 0 0 auto;
-    }
-    
-    .btn {
-        width: auto;
-        min-width: 120px;
-        max-width: 100%;
-    }
-}
-
-/* Z-index management for appropriate layering */
-#menuBtn {
-    z-index: 1100;
-}
-
-/* Ensure body is set to handle fixed position overlays properly */
-html, body {
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-}
-
-/* Fix for responsive button containers */
-.button-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Ensure all buttons maintain shape */
-button {
-    flex-shrink: 0;
-}
-
-/* Fix for category buttons */
-#editCategory, #deleteCategory {
-    position: relative;
-    flex: 0 0 auto;
-}
-
-#editCategory:hover::after {
-    content: "Add Custom Category";
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.5rem 0.75rem;
-    background-color: var(--card-dark);
-    color: var(--text-light);
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    white-space: nowrap;
-    box-shadow: var(--shadow-md);
-    z-index: 10;
-}
-
-/* Additional fixes for mobile layout */
-
-/* Adjust button sizing for smallest screens */
-@media (max-width: 360px) {
-    .action-button {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-    }
-    
-    .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
-    
-    /* Ensure form inputs have proper padding */
-    .input-field {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-}
-
-/* Fix for alignment in form groups */
-.input-group {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-/* Ensure buttons maintain their shape */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    max-width: 100%;
-}
-
-/* Fix for button with icons */
-.btn i {
-    flex-shrink: 0;
-}
-
-/* Fix button container for proper centering */
-.button-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-/* Fix for form buttons that should be full width */
-.form-button-full {
-    width: 100%;
-}
-
-/* Adjust menu button position for better visibility */
-#menuBtn {
-    transform: scale(1);
-    transition: transform 0.2s ease;
-}
-
-#menuBtn:hover,
-#menuBtn:active {
-    transform: scale(1.1);
+    .drawer { width: 88vw; }
+    .card { padding: 1.1rem; }
 }

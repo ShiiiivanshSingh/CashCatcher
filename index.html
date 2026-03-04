@@ -1,336 +1,198 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>CashCatcher | Personal Expense Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles.css"> 
-    <link rel="icon" type="image/png" href="assets/img/coin.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CashCatcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300 py-8">
-    
-    <!-- Landing Page -->
-    <div id="landingPage" class="hidden w-full max-w-xl px-6 animate-fadeIn">
-        <div class="text-center space-y-8">
-            <div class="mb-10">
-                <div class="flex justify-center mb-4">
-                    <div class="p-4 bg-indigo-500 rounded-full shadow-lg">
-                        <i class="fas fa-coins text-5xl text-white"></i>
-                    </div>
-                </div>
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">CashCatcher</h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-                    Simple, modern expense tracking for everyone
-                </p>
-            </div>
-            
-            <div class="space-y-4">
-                <button id="startTracking" 
-                    class="btn btn-primary px-8 py-4 text-lg">
-                    <span class="flex items-center justify-center">
-                        <span>Start Tracking</span>
-                        <i class="fas fa-arrow-right ml-3"></i>
-                    </span>
-                </button>
-                <p class="text-sm text-indigo-500 dark:text-indigo-300">No sign-up required • Data stored locally</p>
-            </div>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
-                <div class="card p-6 text-center">
-                    <div class="flex justify-center mb-3">
-                        <div class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
-                            <i class="fas fa-bolt text-indigo-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <h3 class="font-medium text-lg dark:text-white mb-2">Quick & Easy</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">Track expenses in just a few clicks</p>
-                </div>
-                <div class="card p-6 text-center">
-                    <div class="flex justify-center mb-3">
-                        <div class="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900 flex items-center justify-center">
-                            <i class="fas fa-chart-line text-cyan-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <h3 class="font-medium text-lg dark:text-white mb-2">Track Spending</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">Visualize where your money goes</p>
-                </div>
-                <div class="card p-6 text-center">
-                    <div class="flex justify-center mb-3">
-                        <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                            <i class="fas fa-lock text-purple-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <h3 class="font-medium text-lg dark:text-white mb-2">Privacy First</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">Your data stays on your device</p>
-                </div>
-            </div>
-        </div>
+  <div id="app">
+
+    <div id="screen-landing" class="screen active">
+      <div class="logo-ring"><i class="fas fa-coins"></i></div>
+      <div>
+        <h1 class="headline">Cash<span>Catcher</span></h1>
+        <p class="subhead">Simple, modern expense tracking.<br>No account needed.</p>
+      </div>
+      <div class="feature-pills">
+        <span class="pill"><i class="fas fa-bolt"></i> Instant</span>
+        <span class="pill"><i class="fas fa-lock"></i> Local-only</span>
+        <span class="pill"><i class="fas fa-chart-pie"></i> Insights</span>
+      </div>
+      <button class="btn btn-primary" id="startTracking" style="width:100%;max-width:280px;padding:1rem 2rem;font-size:1rem;">
+        Get Started <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
 
-    <!-- Name Input Container -->
-    <div id="nameInputContainer" class="hidden w-full max-w-md px-6 animate-fadeIn">
-        <div class="card p-8 text-center">
-            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Get Started</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">Tell us your name to personalize your experience</p>
-            <div class="flex items-center space-x-3 input-group">
-                <input type="text" id="userName" placeholder="Enter your name" 
-                    class="input-field flex-1 py-3 text-lg text-center border-2 border-gray-300 dark:border-gray-600
-                           focus:border-indigo-500 rounded-full">
-                <button id="submitName" 
-                    class="action-button w-12 h-12 bg-indigo-500 hover:bg-indigo-600">
-                    <i class="fa-solid fa-arrow-right text-lg"></i>
-                </button>
-            </div>
+    <div id="screen-name" class="screen">
+      <div class="card">
+        <div class="card-title">What's your name?</div>
+        <div class="card-sub">We'll use it to personalize your dashboard.</div>
+        <div class="input-row">
+          <input type="text" id="userName" placeholder="Enter your name" autocomplete="off">
+          <button class="btn-icon" id="submitName"><i class="fas fa-arrow-right"></i></button>
         </div>
+      </div>
     </div>
 
-    <!-- Expense Section -->
-    <div id="expenseSection" class="hidden container mx-auto px-4 py-8 max-w-6xl animate-fadeIn">
-        <!-- Drawer overlay -->
-        <div id="drawerOverlay" class="drawer-overlay"></div>
-        
-        <!-- Settings Drawer -->
-        <div class="drawer" id="settingsDrawer">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold dark:text-white">Settings</h2>
-                <button id="closeDrawer" class="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-8">
-                <div class="theme-section">
-                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Theme</h3>
-                    <button id="themeToggle" class="w-full bg-gray-100 dark:bg-gray-800 p-4 rounded-lg flex justify-between items-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                        <span id="themeText" class="font-medium">Light Mode</span>
-                        <i class="fas fa-sun text-yellow-500" id="themeIcon"></i>
-                </button>
-            </div>
+    <div id="screen-app" class="screen">
+      <div class="topbar">
+        <div class="welcome-text">
+          Hey, <span id="nameDisplay"></span>!
+          <button id="editName">(edit)</button>
+        </div>
+      </div>
 
-                <div class="currency-section">
-                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Currency</h3>
-                    <select id="currencySelect" class="input-field bg-indigo-500 text-white py-3 rounded-lg">
-                    <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (€)</option>
-                    <option value="GBP">GBP (£)</option>
-                    <option value="INR">INR (₹)</option>
-                    <option value="JPY">JPY (¥)</option>
+      <div class="main-grid">
+        <div class="card" style="margin-bottom:0;">
+          <div style="font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;">Add Expense</div>
+          <form id="expenseForm">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" id="description" placeholder="What did you spend on?" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="amount">Amount</label>
+              <input type="number" id="amount" placeholder="0.00" required min="0" step="0.01">
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <div class="select-row">
+                <select id="category" required>
+                  <option value="">Select category</option>
+                  <option value="Food">Food</option>
+                  <option value="BlinkIt">BlinkIt</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Bills">Bills</option>
+                  <option value="Other">Other</option>
                 </select>
-            </div>
-            
-                <div>
-                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Data Management</h3>
-                    <button id="resetData" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors">
-                    Reset All Data
+                <button type="button" class="btn-icon ghost" id="editCategory" title="Add custom category">
+                  <i class="fas fa-plus"></i>
                 </button>
+                <button type="button" class="btn-icon" id="deleteCategory" style="background:var(--danger);display:none;" title="Delete category">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
-
-                <div>
-                    <h3 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Links</h3>
-                    <div class="space-y-2">
-                <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank"
-                          class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                            <i class="fab fa-github mr-3 text-lg"></i>
-                            <span class="font-medium">GitHub Repository</span>
-                </a>
-                
-                <a href="plot.html" target="_blank"
-                          class="flex items-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                            <i class="fa-solid fa-chart-pie mr-3 text-lg text-indigo-500"></i>
-                            <span class="font-medium">Insights Dashboard</span>
-                </a>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="expenseDate">Date</label>
+              <input type="date" id="expenseDate" required>
             </div>
-
-            <div class="mt-12 text-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
-                <h3 class="font-semibold mb-4 text-gray-900 dark:text-white text-xl">About CashCatcher</h3>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">
-                    A simple, efficient way to track your daily expenses.<br>
-                    Made with ❤️ by Shivansh Pratap Singh
-                </p>
-                <a href="https://github.com/ShiiiivanshSingh" target="_blank" class="text-indigo-500 hover:text-indigo-600 font-medium">
-                    Visit GitHub Profile
-                </a>
-            </div>
-        </div>
-
-        <div class="fixed top-6 right-6 z-50">
-            <button id="menuBtn" class="action-button shadow-lg hover:bg-indigo-600">
-                <i class="fa-solid fa-bars"></i>
+            <button type="submit" class="btn btn-primary" style="width:100%;">
+              <i class="fas fa-plus"></i> Add Expense
             </button>
+          </form>
         </div>
 
-        <div class="container mx-auto px-4 py-8 max-w-5xl">
-            <div class="mb-10 text-center relative">
-                <div id="welcomeMessage" class="text-gray-700 dark:text-gray-300 text-2xl hidden animate-fadeIn">
-                    Welcome back, <span id="nameDisplay" class="font-semibold text-indigo-500 dark:text-indigo-400"></span>! 
-                    <button id="editName" class="text-sm text-indigo-500 ml-2 underline">(edit)</button>
-                </div>
+        <div class="sidebar-stack">
+          <div class="summary-top">
+            <div class="summary-label">Total Spent</div>
+            <div class="summary-amount" id="totalExpenses">₹0.00</div>
+            <div style="margin-top:0.5rem;font-size:0.8rem;opacity:0.75;" id="txCount">0 transactions</div>
+          </div>
+          <div class="card" style="margin-bottom:0;flex:1;padding:1.1rem;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:0.9rem;">By Category</div>
+            <div id="categoryBreakdown" style="display:flex;flex-direction:column;gap:0.55rem;">
+              <div style="color:var(--muted);font-size:0.82rem;">No data yet</div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="card md:col-span-2">
-                    <h2 class="text-2xl font-semibold mb-6">Add New Expense</h2>
-                    <form id="expenseForm" class="space-y-5">
-                    <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                            <input type="text" id="description" placeholder="What did you spend on?" required
-                                class="input-field py-3">
-                    </div>
-                    <div>
-                            <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Amount</label>
-                            <input type="number" id="amount" placeholder="0.00" required min="0" step="0.01"
-                                class="input-field py-3">
-                    </div>
-                    <div>
-                            <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
-                        <div class="flex items-center space-x-2 input-group">
-                            <select id="category" required
-                                    class="input-field py-3 category-select flex-1">
-                                <option value="">Select Category</option>
-                                <option value="Food">Food</option>
-                                <option value="BlinkIt">BlinkIt</option>
-                                <option value="Entertainment">Entertainment</option>
-                                <option value="Shopping">Shopping</option>
-                                <option value="Bills">Bills</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <div class="flex-shrink-0 flex space-x-2">
-                                <button id="editCategory" class="action-button bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-300">
-                                    <i class="fas fa-plus text-sm"></i>
-                                </button>
-                                <button id="deleteCategory" class="action-button bg-red-500 hover:bg-red-600 hidden">
-                                    <i class="fas fa-trash text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="categoryNotification" class="hidden text-green-500 mt-2 text-sm">
-                            <i class="fas fa-check-circle mr-1"></i> Category added successfully!
-                        </div>
-                    </div>
-                    
-                    <div class="button-container">
-                        <button type="submit"
-                                class="btn btn-primary py-3 mt-2 px-8">
-                                <i class="fa-solid fa-plus mr-2"></i> Add Expense
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-                <div class="card">
-                    <h2 class="text-2xl font-semibold mb-6">Summary</h2>
-                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
-                        <div class="text-gray-600 dark:text-gray-300 mb-2">Total Expenses</div>
-                        <div id="totalExpenses" class="text-3xl font-bold text-indigo-500">$0</div>
-                    </div>
-                    
-                    <div class="mt-6">
-                        <a href="plot.html" class="btn btn-primary w-full flex justify-center items-center">
-                            <i class="fa-solid fa-chart-pie mr-2"></i> View Insights
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold">Recent Expenses</h2>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Showing recent transactions
-                    </div>
-                </div>
-                
-                <div class="table-container">
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Category</th>
-                                <th>Amount</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expenseList">
-                            <!-- Expense list will be populated here by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          </div>
+          <a href="plot.html" class="btn btn-ghost" style="width:100%;justify-content:center;text-decoration:none;">
+            <i class="fas fa-chart-pie" style="color:var(--indigo);"></i> View Insights
+          </a>
         </div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;">
+          <div style="font-size:1.1rem;font-weight:600;">Recent Expenses</div>
+          <span style="font-size:0.8rem;color:var(--muted);" id="expenseCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="expenseList"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const storedName = localStorage.getItem('userName');
-            if (storedName) {
-                document.getElementById('expenseSection').classList.remove('hidden');
-            } else {
-                document.getElementById('landingPage').classList.remove('hidden');
-            }
-        });
+  </div>
 
-        document.getElementById('startTracking').addEventListener('click', function() {
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('nameInputContainer').classList.remove('hidden');
-        });
+  <button class="btn-icon ghost" id="menuBtn"><i class="fas fa-bars"></i></button>
+  <div class="overlay" id="drawerOverlay"></div>
 
-        document.getElementById('submitName').addEventListener('click', function() {
-            const name = document.getElementById('userName').value.trim();
-            if (name) {
-                localStorage.setItem('userName', name);
-                document.getElementById('nameInputContainer').classList.add('hidden');
-                document.getElementById('expenseSection').classList.remove('hidden');
-                document.getElementById('nameDisplay').innerText = name;
-                document.getElementById('welcomeMessage').classList.remove('hidden');
-            }
-        });
+  <div class="drawer" id="settingsDrawer">
+    <div class="drawer-header">
+      <span class="drawer-title">Settings</span>
+      <button class="btn-icon ghost" id="closeDrawer" style="width:32px;height:32px;font-size:0.85rem;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="drawer-section">
+      <h3>Theme</h3>
+      <button class="theme-toggle-btn" id="themeToggle">
+        <span id="themeText">Dark Mode</span>
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+    <div class="drawer-section">
+      <h3>Currency</h3>
+      <select id="currencySelect">
+        <option value="INR">INR (₹)</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+        <option value="JPY">JPY (¥)</option>
+      </select>
+    </div>
+    <div class="drawer-section">
+      <h3>Data</h3>
+      <button class="btn btn-danger" id="resetData" style="width:100%;">
+        <i class="fas fa-trash"></i> Reset All Data
+      </button>
+    </div>
+    <div class="drawer-section">
+      <h3>Links</h3>
+      <a href="https://github.com/ShiiiivanshSingh/CashCatcher" target="_blank" class="drawer-link">
+        <i class="fab fa-github"></i> GitHub Repository
+      </a>
+      <a href="plot.html" target="_blank" class="drawer-link">
+        <i class="fas fa-chart-pie"></i> Insights Dashboard
+      </a>
+    </div>
+    <div class="about-box">
+      <strong>CashCatcher</strong><br>
+      Made with ❤️ by Shivansh Pratap Singh<br>
+      <a href="https://github.com/ShiiiivanshSingh" target="_blank">GitHub Profile</a>
+    </div>
+  </div>
 
-        document.getElementById('userName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('submitName').click();
-            }
-        });
-        
-        // Fixed drawer toggle functionality with animation delay
-        document.getElementById('menuBtn').addEventListener('click', function() {
-            // First show the overlay
-            document.getElementById('drawerOverlay').classList.add('open');
-            // Then after a tiny delay, show the drawer for smoother animation
-            setTimeout(function() {
-                document.getElementById('settingsDrawer').classList.add('open');
-            }, 10);
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when drawer is open
-        });
+  <div class="toast" id="toast"></div>
 
-        document.getElementById('closeDrawer').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        document.getElementById('drawerOverlay').addEventListener('click', function() {
-            closeDrawer();
-        });
-        
-        // Helper function to close the drawer
-        function closeDrawer() {
-            document.getElementById('settingsDrawer').classList.remove('open');
-            // Small delay before hiding overlay for smoother transition
-            setTimeout(function() {
-                document.getElementById('drawerOverlay').classList.remove('open');
-            }, 300);
-            document.body.style.overflow = ''; // Re-enable scrolling
-        }
-    </script>
+  <footer class="site-footer">
+    <strong>CashCatcher</strong>
+    <span class="footer-dot">·</span>
+    by <a href="https://github.com/ShiiiivanshSingh" target="_blank">Shivansh Pratap Singh</a>
+    <span class="footer-dot">·</span>
+    Made on New Year's Eve, 2025
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
