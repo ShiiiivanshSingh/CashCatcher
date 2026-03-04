@@ -2,11 +2,12 @@
 
 <p align="center"><img src="https://socialify.git.ci/ShiiiivanshSingh/CashCatcher/image?custom_description=A+modern+web+app+for+tracking+personal+expenses+and+visualizing+your+spending+habits.&amp;description=1&amp;font=Inter&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Solid&amp;stargazers=1&amp;theme=Dark" alt="project-image"></p>
 
-<h2>🚀 Demo</h2>
+<h2> Demo</h2>
 
 <div align="center">
   
-[![CashCatcher](https://img.shields.io/badge/Try-CashCatcher-4f46e5?style=for-the-badge)](https://shiiiivanshsingh.github.io/CashCatcher/index.html)
+<img width="1920" height="1080" alt="Screenshot (97)" src="https://github.com/user-attachments/assets/c58cbcc0-add0-468a-b7c4-ae7b1d19eab2" />
+
 
 </div>
 
